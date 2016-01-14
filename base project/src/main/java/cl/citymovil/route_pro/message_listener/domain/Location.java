@@ -13,12 +13,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)//si desde json viene con una propiedad desconocida, esto me sirve para que el sistema no se caiga si es que no lo reconoce
 public class Location {
 
 	public static final Logger log = LoggerFactory.getLogger(Location.class);
 
-	@JsonProperty("location_id")
+	@JsonProperty("location_id")//renombre establecido para ocupar esto desde json con el nombre modificado de locationId a location_id
 	@Id
 	@Column(name="location_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
