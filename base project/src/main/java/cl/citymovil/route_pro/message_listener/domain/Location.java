@@ -18,44 +18,50 @@ public class Location {
 
 	public static final Logger log = LoggerFactory.getLogger(Location.class);
 
+	public static Logger getLog() {
+		return log;
+	}
+
 	@JsonProperty("location_id")
 	@Id
 	@Column(name="location_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long locationId;
-
-	private double latitude;
-	private double longitude;
+	private Double latitude;//Los valores double e int so primitivos y en java no admiten null,
+	//para solucionar esto, se hace uso de Double y de Integer, que son clases en java que admiten este tipo de valores.
+	
+	private Double longitude;
 	
 	public  Location(){}
-	
-	public Location(double latitude ,double longitude ){
-		
+
+
+	public Location(double latitude, double longitude) {
+
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 
-	public double getLatitude() {
-		return this.latitude;
+	public Double getLatitude() {
+		return latitude;
 	}
 
 	public long getLocationId() {
 		return this.locationId;
 	}
 
-	public double getLongitude() {
-		return this.longitude;
+	public Double getLongitude() {
+		return longitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	
+
 	public void setLocationId(long locationId) {
 		this.locationId = locationId;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 

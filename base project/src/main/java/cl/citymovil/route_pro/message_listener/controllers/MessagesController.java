@@ -43,8 +43,8 @@ public class MessagesController {
 	public @ResponseBody String testinsert() {
 	
 		Location location = new Location();
-		location.setLatitude(-33);
-		location.setLongitude(-71);
+		location.setLatitude(-33D);
+		location.setLongitude(-71D);
 		
 		databaseService.addVehiclePositionTest(location);
 		
