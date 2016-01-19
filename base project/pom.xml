@@ -61,6 +61,20 @@
 			<artifactId>junit</artifactId>
 			<version>${version.junit}</version>
 		</dependency>
+		
+		<!-- Google API -->
+		<dependency>
+		    <groupId>com.google.maps</groupId>
+		    <artifactId>google-maps-services</artifactId>
+		    <version>0.1.1</version>
+		</dependency>
+		
+		<!-- Para visualizar Variables -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
 
 		<!-- ORM -->
 

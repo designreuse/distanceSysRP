@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
+import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.LocationConteiner;
@@ -17,7 +18,9 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 
 	
 	@Autowired
-	LocationConteiner conteinerLocation ;
+	LocationConteiner conteinerLocation;
+	
+	
 	
 	
 
@@ -48,9 +51,48 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	@Override
-	public List<Location> Process(List<LocationTmp> newLocation, List<Location> oldLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public DistanceTimeMatriz[] Process(LocationConteiner locationConteiner) {
+		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
+		
+		AskToGoogle askToGoogle = null;
+		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
+		if(newLocation==null){
+			System.out.println("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
+			return null;
+		}else{
+			
+		
+			
+			DistanceTimeMatriz[] resp = askToGoogle.getDistanceByGoogle(locationConteiner);
+			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
+			return resp;
+//			 for (LocationTmp locTmp: newLocation) {
+//				 String LatLongNEWLocation=String.valueOf(locTmp.getLatitudeTmp())+","+String.valueOf(locTmp.getLongitudeTmp());
+//				
+//				 
+//				 	for(Location loc: oldLocation){
+//				 		 origins[contLoc]=LatLongNEWLocation; 
+//				 		 String LatLongOLDLocation=String.valueOf(loc.getLatitude())+","+String.valueOf(loc.getLongitude());
+//				 		 destiny[contLoc]=LatLongOLDLocation; 
+//						 contLoc++;
+//						 
+//			    	  
+//			       }
+//				 	MatrizDisData[0][1]=askToGoogle.getDistanceByGoogle();
+//				 	
+//				 
+//			    }
+			 
+		
+			
+			
+		}
+//		askToGoogle.getDistanceByGoogle();
+		
+		
+		
+	
+		
 	}
 
 	@Override
