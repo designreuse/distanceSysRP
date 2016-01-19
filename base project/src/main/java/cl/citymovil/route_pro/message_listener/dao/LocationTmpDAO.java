@@ -8,7 +8,7 @@ import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 
 public interface LocationTmpDAO {
 	
-	public List<LocationTmp> getTmpLocationList();
+	public List<LocationTmp> getTmpLocationList() throws Exception;
 	
 	public void updateTmpLocation(long LocationId);
 

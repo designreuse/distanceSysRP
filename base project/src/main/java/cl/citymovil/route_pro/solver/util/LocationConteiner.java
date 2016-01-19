@@ -37,42 +37,48 @@ public class LocationConteiner {
 //	@Autowired
 //	LocationConteiner conteinerLocation ;
 	
-	private List<Location> location;
-	private List<LocationTmp> locationTmp;
+	private List<Location> location=null;
+	private List<LocationTmp> locationTmp=null;
 	
 	
 	public void LoadLocationConteiner(){
-//		LocationDAO locationDAO= new LocationDAOImpl();
-//		LocationTmpDAO locationTmpDAO = new LocationTmpDAOImpl();
 		
 		List<LocationTmp> listTmp;
-//		listTmp=locationTmpDAO.getTmpLocationList();
-//		
-//		if(listTmp!=null){
-//			return;
-//			
-//		}else{
-			List<Location> list;
+		
+		//////////////////////////////////
+			try {
+				listTmp=locationTmpDAO.getTmpLocationList();
+				System.out.println(" <><><> ::: EN TRY Buscando la lista de locaciones ya registradas ::: <><><> ");
+				List<Location> list;
+				
+				list = locationDAO.getLocationList();
+				
+				this.location=list;
+				this.locationTmp=listTmp;
+				
+				System.out.println("::: LISTANDO LOCACIONES :::");
+				this.listLocation();
+				
+				
+			    listTmp = locationTmpDAO.getTmpLocationList();//locationDAO.getTmpLocationList();
+			   
 			
-			list = locationDAO.getLocationList();
-			System.out.println("Afuera del GET en list.tostring"+list.toString());
-			this.location=list;
-			this.locationTmp=null;
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(" *******<><><> ::: Saliendo porque no hay nueva locacion ::: <><><> ");
+			}
+			catch (IllegalAccessError e) {
+				System.out.println(" *******<><><> ::: Saliendo porque no hay nueva locacion ::: <><><> "+e);
+				// TODO: handle exception
+			}
 			
-//		}
+			System.out.println("<<<<<<<<<<<<  saliendo del getLocationList()  >>>>>>>>>>>>>>>>");
+		
+			
+		
 		
 		//LocationTmpDAO locationTmpDAO;
-		
-		
-		
-		
-		
-		
-		System.out.println("<<<<<<<<<<<<  saliendo del getLocationList()  >>>>>>>>>>>>>>>>");
-		
-	    listTmp = locationTmpDAO.getTmpLocationList();//locationDAO.getTmpLocationList();
-	
-		
+			
 	}
 	public List<Location> getLocation() {
 		return location;
@@ -85,6 +91,25 @@ public class LocationConteiner {
 	}
 	public void setLocationTmp(List<LocationTmp> locationTmp) {
 		this.locationTmp = locationTmp;
+	}
+	public void listLocation(){
+		if(this.location==null){
+			
+			System.out.println(":: La lista de Locaciones se encuentra vacia o no ha sido cargada correctamente ::");
+		}else{
+			
+			
+			 for (Location i: this.location) {
+			        System.out.println ("Dirección LocationID:"+i.getLocationId()+" Latitud:"+i.getLatitude()); //Muestra cada uno de los nombres dentro de listaDeNombres
+			    }
+			
+		}
+		
+		
+	}
+	
+	public void listTmpLocation(){
+		
 	}
 	
 	

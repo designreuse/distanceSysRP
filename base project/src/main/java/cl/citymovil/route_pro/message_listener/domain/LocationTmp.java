@@ -7,11 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Immutable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -39,6 +37,121 @@ public class LocationTmp {
 	@Column(name="longitude_tmp")
 	private Double longitudeTmp;
 	
+	@JsonProperty("address_tmp")
+	@Column(name="address_tmp")
+	private String addressTmp;
+	
+	@JsonProperty("street_number_tmp")
+	@Column(name="street_number_tmp")
+	private String streetNumberTmp;
+	
+	@JsonProperty("route_tmp")
+	@Column(name="route_tmp")
+	private String routeTmp;
+	
+	@JsonProperty("administrative_area_level_1_tmp")
+	@Column(name="administrative_area_level_1_tmp")
+	private String administrativeAreaLevel1Tmp;
+	
+	@JsonProperty("country_tmp")
+	@Column(name="country_tmp")
+	private String countryTmp;
+	
+	@JsonProperty("meterPerHours_tmp")
+	@Column(name="meterPerHours_tmp")
+	private Integer meterPerHoursTmp;
+	
+	
+	@JsonProperty("locality_tmp")
+	@Column(name="locality_tmp")
+	private String localityTmp;
+	
+public long getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(long locationId) {
+		this.locationId = locationId;
+	}
+
+	public Double getLatitudeTmp() {
+		return latitudeTmp;
+	}
+
+	public void setLatitudeTmp(Double latitudeTmp) {
+		this.latitudeTmp = latitudeTmp;
+	}
+
+	public Double getLongitudeTmp() {
+		return longitudeTmp;
+	}
+
+	public void setLongitudeTmp(Double longitudeTmp) {
+		this.longitudeTmp = longitudeTmp;
+	}
+
+	public String getAddressTmp() {
+		return addressTmp;
+	}
+
+	public void setAddressTmp(String addressTmp) {
+		this.addressTmp = addressTmp;
+	}
+
+	public String getStreetNumberTmp() {
+		return streetNumberTmp;
+	}
+
+	public void setStreetNumberTmp(String streetNumberTmp) {
+		this.streetNumberTmp = streetNumberTmp;
+	}
+
+	public String getRouteTmp() {
+		return routeTmp;
+	}
+
+	public void setRouteTmp(String routeTmp) {
+		this.routeTmp = routeTmp;
+	}
+
+	public String getAdministrativeAreaLevel1Tmp() {
+		return administrativeAreaLevel1Tmp;
+	}
+
+	public void setAdministrativeAreaLevel1Tmp(String administrativeAreaLevel1Tmp) {
+		this.administrativeAreaLevel1Tmp = administrativeAreaLevel1Tmp;
+	}
+
+	public String getCountryTmp() {
+		return countryTmp;
+	}
+
+	public void setCountryTmp(String countryTmp) {
+		this.countryTmp = countryTmp;
+	}
+
+	public Integer getMeterPerHoursTmp() {
+		return meterPerHoursTmp;
+	}
+
+	public void setMeterPerHoursTmp(Integer meterPerHoursTmp) {
+		this.meterPerHoursTmp = meterPerHoursTmp;
+	}
+
+	public String getLocalityTmp() {
+		return localityTmp;
+	}
+
+	public void setLocalityTmp(String localityTmp) {
+		this.localityTmp = localityTmp;
+	}
+
+	
+	
+	
+	
+	
+
 	public  LocationTmp(){}
 
 	public LocationTmp(Double latitude, Double longitude) {
@@ -46,35 +159,7 @@ public class LocationTmp {
 		this.latitudeTmp = latitude;
 		this.longitudeTmp = longitude;
 	}
-	public Double getLatitude() {
-		return latitudeTmp;
-	}
 
-	public long getLocationId() {
-		return this.locationId;
-	}
-
-	public Double getLongitude() {
-		return longitudeTmp;
-	}
-
-	public void setLatitude(Double latitude) {
-		this.latitudeTmp = latitude;
-	}
-
-	public void setLocationId(long locationId) {
-		this.locationId = locationId;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitudeTmp = longitude;
-	}
-
-    public String toString() {
-		return String.valueOf(this.locationId);
-	}
-
-	
 	
 
 }

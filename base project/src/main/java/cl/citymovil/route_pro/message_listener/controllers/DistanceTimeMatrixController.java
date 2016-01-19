@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixServiceImpl;
+import cl.citymovil.route_pro.solver.util.LocationConteiner;
 
 @Controller
 @RequestMapping(value="/priceincrease.htm")
@@ -32,9 +33,12 @@ public class DistanceTimeMatrixController {
     	
     	//DistanceMatrixService distanceMatrixService = new DistanceMatrixServiceImpl();
     	
+    
+    	LocationConteiner locationConteiner = distanceMatrixService.Preprocess();
     	
-    	distanceMatrixService.Preprocess();
+//    	distanceMatrixService.Process(locationConteiner.getLocationTmp(), locationConteiner.getLocation());
     	
+   
     	//DistanceMatrixServiceImp-Preprocess
     	
 		/*

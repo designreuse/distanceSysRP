@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.Location;
+import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.LocationConteiner;
 
 @Service
@@ -47,7 +48,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	@Override
-	public List<Location> Process(List<Location> newLocation, List<Location> oldLocation) {
+	public List<Location> Process(List<LocationTmp> newLocation, List<Location> oldLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
