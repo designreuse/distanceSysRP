@@ -98,8 +98,9 @@ public class LocationConteiner {
 			System.out.println(":: La lista de Locaciones se encuentra vacia o no ha sido cargada correctamente ::");
 		}else{
 			
-			
+			 System.out.println (":::::: LISTA DE LOCACIONES INGRESADAS ::::::::::");
 			 for (Location i: this.location) {
+				 
 			        System.out.println ("Dirección LocationID:"+i.getLocationId()+" Latitud:"+i.getLatitude()); //Muestra cada uno de los nombres dentro de listaDeNombres
 			    }
 			
@@ -109,7 +110,18 @@ public class LocationConteiner {
 	}
 	
 	public void listTmpLocation(){
-		
+			if(this.locationTmp==null){
+			
+				System.out.println(":: La lista de Locaciones se encuentra vacia o no ha sido cargada correctamente ::");
+			}else{
+				
+				 System.out.println (":::::: LISTA DE LOCACIONES TEMPORALES ::::::::::");
+				 for (LocationTmp i: this.locationTmp) {
+				
+				        System.out.println ("Dirección LocationTMPID:"+i.getLocationId()+" LatitudTMP:"+i.getLatitudeTmp()); //Muestra cada uno de los nombres dentro de listaDeNombres
+				    }
+				
+			}
 	}
 	
 	

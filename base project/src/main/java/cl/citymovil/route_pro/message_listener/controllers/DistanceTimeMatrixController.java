@@ -36,7 +36,11 @@ public class DistanceTimeMatrixController {
     
     	LocationConteiner locationConteiner = distanceMatrixService.Preprocess();
     	
-//    	distanceMatrixService.Process(locationConteiner.getLocationTmp(), locationConteiner.getLocation());
+   	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
+   	 locationConteiner.listLocation();
+   	locationConteiner.listTmpLocation();
+    	
+    	distanceMatrixService.Process(locationConteiner.getLocationTmp(), locationConteiner.getLocation());
     	
    
     	//DistanceMatrixServiceImp-Preprocess
