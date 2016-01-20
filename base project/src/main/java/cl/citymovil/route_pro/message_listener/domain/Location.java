@@ -68,6 +68,5 @@ public class Location {
     public String toString() {
 		return String.valueOf(this.locationId);
 	}
-	
-	
+		
 }

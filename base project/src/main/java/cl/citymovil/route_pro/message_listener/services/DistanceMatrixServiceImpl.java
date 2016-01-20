@@ -20,6 +20,9 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	@Autowired
 	LocationConteiner conteinerLocation;
 	
+	@Autowired
+	AskToGoogle askToGoogle;
+	
 	
 	
 	
@@ -54,14 +57,13 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	public DistanceTimeMatriz[] Process(LocationConteiner locationConteiner) {
 		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
 		
-		AskToGoogle askToGoogle = null;
 		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
 		if(newLocation==null){
 			System.out.println("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
 			return null;
 		}else{
 			
-		
+			
 			
 			DistanceTimeMatriz[] resp = askToGoogle.getDistanceByGoogle(locationConteiner);
 			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
