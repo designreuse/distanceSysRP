@@ -6,12 +6,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DistanceTimeMatriz {
+	public static final Logger log = LoggerFactory.getLogger(Location.class);
+
+	public static Logger getLog() {
+		return log;
+	}
 	
 	@JsonProperty("distance_time_matrix_id")
 	@Id
@@ -24,8 +32,8 @@ public class DistanceTimeMatriz {
 	private Integer end;
 	private Integer start;
 	
-	
-	
+	public  DistanceTimeMatriz(){}
+
 	
 	public Double getDistance() {
 		return distance;

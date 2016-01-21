@@ -30,6 +30,7 @@ public class LocationConteiner {
 	@Autowired
 	LocationDAO locationDAO;
 	
+	
 	@Autowired
 	LocationTmpDAO locationTmpDAO;
 //	LocationDAO locationDAO= new LocationDAOImpl();

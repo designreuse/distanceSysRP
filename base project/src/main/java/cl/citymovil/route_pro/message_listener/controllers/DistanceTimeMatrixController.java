@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixServiceImpl;
+import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationConteiner;
 
 @Controller
@@ -27,13 +28,13 @@ public class DistanceTimeMatrixController {
    // @RequestMapping(method = RequestMethod.POST)
     @RequestMapping(method = RequestMethod.GET)
    //@RequestMapping(value = "/priceincrease", method = RequestMethod.GET)
-    public String onSubmit()
+    public void onSubmit()
     {
     	System.out.println("PAsando por el onSubmit via GET");
     	
     	//DistanceMatrixService distanceMatrixService = new DistanceMatrixServiceImpl();
     	
-    
+    	System.out.println ("::::::INICIANDO PREPROCESS::::::::::");
     	LocationConteiner locationConteiner = distanceMatrixService.Preprocess();
     	
    	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
@@ -41,8 +42,8 @@ public class DistanceTimeMatrixController {
    	locationConteiner.listTmpLocation();
    	
    	
-    	
-    	distanceMatrixService.Process(locationConteiner);
+   	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
+    	DistanceTimeMatrixUtility distanceTimeMatrixUtility = distanceMatrixService.Process(locationConteiner);
     	
    
     	//DistanceMatrixServiceImp-Preprocess
@@ -55,8 +56,11 @@ public class DistanceTimeMatrixController {
 
         locationManager.getValidateLocation(, lon);    */
     	System.out.println(" >>>>>>>>>>> Saliendo y Mandando una pagina que no existe<<<<<<<<<<<");
+    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
+    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
+    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
 
-        return "redirect:/hello.htm";
+        
     }
 
     //@RequestMapping(method = RequestMethod.GET)
