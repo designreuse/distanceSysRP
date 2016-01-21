@@ -51,7 +51,7 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  //5-Retornar un array con todos los nuevos puntos y pasarlos al postProcess
 		  
 		  //-----------------------------------------------------------------------------------//
-		  logger.info("blablabalbalbalbalbalbalab");
+		  
 		  List<Location>  oldLocations= locationContainer.getLocation();
 		  List<LocationTmp> newLocations = locationContainer.getLocationTmp();
 		  Integer sizeNewLocation = newLocations.size();
@@ -62,8 +62,18 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  Location cabezaOld;
 		  //for(int contNewLoc=0; contNewLoc < sizeNewLocation; contNewLoc++){
 			int contNewLoc=0;
-		  String newPosition[] = {newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp()};
-			 // for(int contOldLoc=0; contOldLoc < sizeOldLocation; contOldLoc++){
+		  
+			List <String> newPositionStringList=new ArrayList <String>();
+			String element=newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp();
+			newPositionStringList.add(contNewLoc, element);
+			//String newPosition[] = {newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp()};
+		 
+		   String[] newPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
+		   
+		   //String[] strarray = strlist.toArray(new String[0]);
+		   //PROCESO INVERSO, PASAR DE STRING[] A LIST <STRING>:-> Arrays.toString(strarray)
+		  
+		  // for(int contOldLoc=0; contOldLoc < sizeOldLocation; contOldLoc++){
 			  int contOldLoc=0;
 				  String oldPosition[] ={ oldLocations.get(contOldLoc).getLatitude()+","+oldLocations.get(contOldLoc).getLongitude()};
 				  
