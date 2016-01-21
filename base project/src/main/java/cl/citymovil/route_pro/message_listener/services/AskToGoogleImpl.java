@@ -32,7 +32,8 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 	@SuppressWarnings("null")
 	@Override
 	public DistanceTimeMatrixUtility getDistanceByGoogle(LocationContainer locationContainer){//String[] newLocations,String[] oldLocations) {
-		  GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyB-ZZHRgGvMLczqzDZnmFBds4Zs27wm1AY");
+		  //GeoApiContext context = new GeoApiContext().setApiKey("j61PmiK8glmpGIVYL47RQrm_zbKk=");//"AIzaSyB-ZZHRgGvMLczqzDZnmFBds4Zs27wm1AY");//AIzaSyBc-yEd3hfr4Q9GEVf2uYu_JaGbtLNlt7Y
+		   GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning", "j-NB2bOlmRUMInQ459WVwrf7O9w=");
 		  
 		  //1- necesito ingresar las nueva locaciones a la tabla de location para obtener su id
 		  
@@ -58,9 +59,9 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  int contDeConsultas=0;
 		  int contDeArreglos=0;
 		  LocationTmp cabeza;
-		  List <LocationTmp> cola;
 		  Location cabezaOld;
-		  List <Location> colaOld;
+//		  List <LocationTmp> cola;
+//		  List <Location> colaOld;
 		  List <String[]> originsArrayList = new ArrayList <String[]>();
 		  List <String[]> destinyArrayList = new ArrayList <String[]>();
 		  List <String> origins = new ArrayList<String>();
@@ -70,34 +71,21 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  
 		  for(int i=0; i< SizeNewLocation; i++){
 			  cabeza = newLocations.get(i);
-			  cola= newLocations.subList(i+1, SizeNewLocation);
+			  //cola= newLocations.subList(i+1, SizeNewLocation);
 			  
 			  
 			  for(int j=0; j<SizeOldLocation; j++){
 				  cabezaOld = oldLocations.get(j);
-				  colaOld= oldLocations.subList(j+1, SizeOldLocation);
-				  
-			/*
-			 * 
-			 * List<String> a = new ArrayList<String>();
-					a.add("kk");
-					a.add("pp");
-					
-					And then you can have an array again by using toArray:
-					
-					String[] myArray = new String[a.size()];
-					a.toArray(myArray);
-			 * 
-			 * 
-			 */
+				 // colaOld= oldLocations.subList(j+1, SizeOldLocation);
 				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp()+"::::");
 				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabezaOld.getLatitude()+","+cabezaOld.getLongitude()+"::::");
 				  System.out.println("::: CONTADORES I:"+i+":: J:"+j+"::");
 				  
-				  String temp =  cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
+				  String newPosition=cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp();
+				  String oldPosition=cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
 				  
-				  destiny.add(temp);
-				  origins.add(temp);//cabeza.getLatitudeTmp().toString()+","+cabeza.getLongitudeTmp().toString()
+				  destiny.add(oldPosition);
+				  origins.add(newPosition);//cabeza.getLatitudeTmp().toString()+","+cabeza.getLongitudeTmp().toString()
 				  
 				  if(contDeConsultas+1==MaxConsultGoogle){
 					  String[] OriginsStringArray = new String[origins.size()];
@@ -124,24 +112,33 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  }
 		  
 		  if(flagRevisionArrayIncompletos==true){
+			  
 			  String[] OriginsStringArray = new String[origins.size()];
 			  String[] DestinysStringArray = new String[destiny.size()];
+			  
 			  destiny.toArray(DestinysStringArray);
 			  origins.toArray(OriginsStringArray);
 			  
 			  originsArrayList.add(contDeArreglos, OriginsStringArray);
 			  destinyArrayList.add(contDeArreglos, OriginsStringArray);
 			  contDeConsultas++;
+			  
 		  }
-		  for(int cont=0; cont <= contDeConsultas; cont++) {
+		  
+		 
+		  for(int cont=0; cont <= originsArrayList.size(); cont++) {
 			  System.out.println(":::::::::CONT:"+cont+"::::::::::");
 			  	try {
 			  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, originsArrayList.get(cont), destinyArrayList.get(cont)).await();
-				} catch (Exception e) {
+			  	
+			  	} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		  }
+		  
+		  
+		  
 		  
 //		  for(int i=0; i< SizeNewLocation; i++){
 //			  cabeza = newLocations.get(i);
