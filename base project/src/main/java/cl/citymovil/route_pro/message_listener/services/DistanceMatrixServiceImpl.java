@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.maps.model.DistanceMatrix;
 
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
@@ -57,7 +58,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	@Override
-	public DistanceTimeMatrixUtility Process(LocationContainer locationConteiner) {
+	public  List <DistanceMatrix> Process(LocationContainer locationConteiner) {
 		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
 		
 		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
@@ -68,7 +69,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 			
 			
 			
-			DistanceTimeMatrixUtility resp = askToGoogle.getDistanceByGoogle(locationConteiner);
+			 List <DistanceMatrix> resp = askToGoogle.getDistanceByGoogle(locationConteiner);
 			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
 			return resp;
 //			 for (LocationTmp locTmp: newLocation) {

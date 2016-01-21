@@ -1,14 +1,20 @@
 package cl.citymovil.route_pro.message_listener.controllers;
 
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.google.maps.model.DistanceMatrix;
 
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixServiceImpl;
@@ -43,7 +49,9 @@ public class DistanceTimeMatrixController {
    	
    	
    	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
-    	DistanceTimeMatrixUtility distanceTimeMatrixUtility = distanceMatrixService.Process(locationConteiner);
+    List <DistanceMatrix> distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+    
+    
     	
    
     	//DistanceMatrixServiceImp-Preprocess
@@ -55,6 +63,8 @@ public class DistanceTimeMatrixController {
     
 
         locationManager.getValidateLocation(, lon);    */
+    System.out.println("::::::::::::::Mostrando el notenido de distanceMatrixList post Process:::::::::::::::");
+   // System.out.println(ToStringBuilder.reflectionToString(distanceMatrixList, ToStringStyle.MULTI_LINE_STYLE));
     	System.out.println(" >>>>>>>>>>> Saliendo y Mandando una pagina que no existe<<<<<<<<<<<");
     	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
     	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");

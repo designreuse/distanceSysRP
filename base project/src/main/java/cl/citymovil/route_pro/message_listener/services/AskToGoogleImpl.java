@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
 
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
@@ -23,6 +27,7 @@ import cl.citymovil.route_pro.solver.util.LocationContainer;
 @Service
 public class AskToGoogleImpl implements AskToGoogle{
 	
+	 protected final Log logger = LogFactory.getLog(getClass());
 	
 private static int MaxConsultGoogle = 25;
 
@@ -31,7 +36,7 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 	
 	@SuppressWarnings("null")
 	@Override
-	public DistanceTimeMatrixUtility getDistanceByGoogle(LocationContainer locationContainer){//String[] newLocations,String[] oldLocations) {
+	public  List <DistanceMatrix> getDistanceByGoogle(LocationContainer locationContainer){//String[] newLocations,String[] oldLocations) {
 		  //GeoApiContext context = new GeoApiContext().setApiKey("j61PmiK8glmpGIVYL47RQrm_zbKk=");//"AIzaSyB-ZZHRgGvMLczqzDZnmFBds4Zs27wm1AY");//AIzaSyBc-yEd3hfr4Q9GEVf2uYu_JaGbtLNlt7Y
 		   GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning", "j-NB2bOlmRUMInQ459WVwrf7O9w=");
 		  
@@ -46,98 +51,163 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  //5-Retornar un array con todos los nuevos puntos y pasarlos al postProcess
 		  
 		  //-----------------------------------------------------------------------------------//
-		  
+		  logger.info("blablabalbalbalbalbalbalab");
 		  List<Location>  oldLocations= locationContainer.getLocation();
 		  List<LocationTmp> newLocations = locationContainer.getLocationTmp();
-		  
-		  Integer SizeNewLocation = newLocations.size();
-		  
-		  Integer SizeOldLocation = oldLocations.size();
-		  
-		  Integer TotalLocation= SizeNewLocation + SizeOldLocation;
-		  
+		  Integer sizeNewLocation = newLocations.size();
+		  Integer sizeOldLocation = oldLocations.size();
 		  int contDeConsultas=0;
 		  int contDeArreglos=0;
 		  LocationTmp cabeza;
 		  Location cabezaOld;
-//		  List <LocationTmp> cola;
-//		  List <Location> colaOld;
-		  List <String[]> originsArrayList = new ArrayList <String[]>();
-		  List <String[]> destinyArrayList = new ArrayList <String[]>();
-		  List <String> origins = new ArrayList<String>();
-		  List <String> destiny = new ArrayList<String>();
+		  //for(int contNewLoc=0; contNewLoc < sizeNewLocation; contNewLoc++){
+			int contNewLoc=0;
+		  String newPosition[] = {newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp()};
+			 // for(int contOldLoc=0; contOldLoc < sizeOldLocation; contOldLoc++){
+			  int contOldLoc=0;
+				  String oldPosition[] ={ oldLocations.get(contOldLoc).getLatitude()+","+oldLocations.get(contOldLoc).getLongitude()};
+				  
+				  
+				  System.out.println(":::::::::PREGUNSTANDO A GOOGLE:::::::::");
+				  	try {
+				  		  DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, newPosition, oldPosition).await();
+				  		  
+				  		  System.out.println("::Origen::"+result.destinationAddresses[0]);
+				  		System.out.println("::Destino::"+result.destinationAddresses.toString());
+				  		System.out.println("::cantidad de Elementos::"+result.rows[0].elements.length);
+				  		  
+				  	
+				  	} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				  
+			 // }
+			  
+			  
+		 // }
 		  
-		  boolean flagRevisionArrayIncompletos=true;
+		  //----------------------------------FIN-----------------------//
 		  
-		  for(int i=0; i< SizeNewLocation; i++){
-			  cabeza = newLocations.get(i);
-			  //cola= newLocations.subList(i+1, SizeNewLocation);
-			  
-			  
-			  for(int j=0; j<SizeOldLocation; j++){
-				  cabezaOld = oldLocations.get(j);
-				 // colaOld= oldLocations.subList(j+1, SizeOldLocation);
-				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp()+"::::");
-				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabezaOld.getLatitude()+","+cabezaOld.getLongitude()+"::::");
-				  System.out.println("::: CONTADORES I:"+i+":: J:"+j+"::");
-				  
-				  String newPosition=cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp();
-				  String oldPosition=cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
-				  
-				  destiny.add(oldPosition);
-				  origins.add(newPosition);//cabeza.getLatitudeTmp().toString()+","+cabeza.getLongitudeTmp().toString()
-				  
-				  if(contDeConsultas+1==MaxConsultGoogle){
-					  String[] OriginsStringArray = new String[origins.size()];
-					  origins.toArray(OriginsStringArray);
-					  originsArrayList.add(contDeArreglos, OriginsStringArray);
-					  
-					  String[] DestinysStringArray = new String[destiny.size()];
-					  destiny.toArray(DestinysStringArray);
-					  destinyArrayList.add(contDeArreglos, DestinysStringArray);
-					  
-					  contDeArreglos++;
-					  contDeConsultas=0;
-					  origins.clear();
-					  destiny.clear();
-					  flagRevisionArrayIncompletos=false;
-				  }else{
-					  flagRevisionArrayIncompletos=true;
-					  contDeConsultas++;
-				  }
-				  
-				  
-			  }
-			  
-		  }
+//		  List <String[]> originsArrayList = new ArrayList <String[]>();
+//		  List <String[]> destinyArrayList = new ArrayList <String[]>();
+//		  List <String> origins = new ArrayList<String>();
+//		  String[] originsArray=new String[]{};
+//		  String[] destinysArray=new String[]{};
+//		  List <String> destiny = new ArrayList<String>();
 		  
-		  if(flagRevisionArrayIncompletos==true){
-			  
-			  String[] OriginsStringArray = new String[origins.size()];
-			  String[] DestinysStringArray = new String[destiny.size()];
-			  
-			  destiny.toArray(DestinysStringArray);
-			  origins.toArray(OriginsStringArray);
-			  
-			  originsArrayList.add(contDeArreglos, OriginsStringArray);
-			  destinyArrayList.add(contDeArreglos, OriginsStringArray);
-			  contDeConsultas++;
-			  
-		  }
 		  
-		 
+		  
+		  
+//		  boolean flagRevisionArrayIncompletos=true;
+//		  if(SizeNewLocation>25){
+//		  for(int i=0; i< SizeNewLocation; i++){
+//			  cabeza = newLocations.get(i);
+//			  //cola= newLocations.subList(i+1, SizeNewLocation);
+//			  String newPosition=cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp();
+//			  
+//			  for(int j=0; j<SizeOldLocation; j++){
+//				  cabezaOld = oldLocations.get(j);
+//				 // colaOld= oldLocations.subList(j+1, SizeOldLocation);
+//				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp()+"::::");
+//				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabezaOld.getLatitude()+","+cabezaOld.getLongitude()+"::::");
+//				  System.out.println("::: CONTADORES I:"+i+":: J:"+j+"::");
+//				  
+//				 
+//				  String oldPosition=cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
+//				  
+//				  destiny.add(oldPosition);
+//				  origins.add(newPosition);//cabeza.getLatitudeTmp().toString()+","+cabeza.getLongitudeTmp().toString()
+//				  
+//				  if(contDeConsultas+1==MaxConsultGoogle){
+//					  origins.toArray(originsArray);
+//					  destiny.toArray(destinysArray);
+//					  originsArrayList.add(originsArray);
+//					  destinyArrayList.add(destinysArray);
+//					  
+//					  //String[] OriginsStringArray = new String[origins.size()];
+//					  //origins.toArray();
+//					 
+//					  //originsArrayList.add(contDeArreglos, OriginsStringArray);
+//					  
+//					  //String[] DestinysStringArray = new String[destiny.size()];
+//					  //destiny.toArray(DestinysStringArray);
+//					  //destinyArrayList.add(contDeArreglos, DestinysStringArray);
+//					  
+//					  contDeArreglos++;
+//					  contDeConsultas=0;
+//					  origins.clear();
+//					  destiny.clear();
+//					  flagRevisionArrayIncompletos=false;
+//				  }else{
+//					  flagRevisionArrayIncompletos=true;
+//					  contDeConsultas++;
+//				  }
+//				  
+//				  
+//			  }
+//			  
+//		  }
+//		  }
+//		  
+//		  
+//		  if(flagRevisionArrayIncompletos==true){
+//			  System.out.println("::::: aqui estoy en flagRevisionArrayIncompletos:::::");
+//			  
+//			 
+//			  
+//			  destiny.toArray(destinysArray);
+//			  origins.toArray(originsArray);
+//			  
+//			  originsArrayList.add(contDeConsultas,originsArray);
+//			  destinyArrayList.add(contDeConsultas,destinysArray);
+//			  
+//			  contDeConsultas++;
+//			  
+//		  }
+//		  
+//		  System.out.println("<<<<<<<<::::::::: LISTO PARA MOSTRAR LOS ARRAYS CREADOS originsArrayList.size()= "+originsArrayList.size()+"::::::::::>>>>>>>>");
+//		  List <DistanceMatrix> arrayDistanceMatrixResult = new ArrayList<DistanceMatrix>();
+//		  
+//		  for(int contGoogleAsk=0; contGoogleAsk < originsArrayList.size(); contGoogleAsk++) {
+//			  System.out.println(":::::::::CONT(contGoogleAsk):"+contGoogleAsk+"::(originsArrayList.get(contGoogleAsk).length)"+originsArrayList.get(contGoogleAsk).length+"::::::::");
+//			  for(int f=0; f< originsArrayList.get(contGoogleAsk).length; f++){
+//				  System.out.println("::::::::Origen:  "+ originsArrayList.get(contGoogleAsk)[f]+"  Destino: "+destinyArrayList.get(contGoogleAsk)[f]+":::::::::");
+//				   
+//			  }
+			  
+//			  	try {
+//			  		 arrayDistanceMatrixResult.add(contGoogleAsk, DistanceMatrixApi.getDistanceMatrix(context, originsArrayList.get(contGoogleAsk), destinyArrayList.get(contGoogleAsk)).await());
+//			  		 System.out.println(":::::MOSTRANDO EL RESULTADO DE GOOGLE::::");
+//			  		 for(int x=0; x< arrayDistanceMatrixResult.get(contGoogleAsk).rows.length; x++){
+//			  			System.out.println("Cantidad de rows: "+arrayDistanceMatrixResult.get(contGoogleAsk).rows+" Cantidad de Elementos en el rows numero "+x+"(y): "+arrayDistanceMatrixResult.get(contGoogleAsk).rows[x].elements.length);
+//			  			for(int y=0; y< arrayDistanceMatrixResult.get(contGoogleAsk).rows[x].elements.length; y++){
+//			  				System.out.println("Entregando informacion arrojada por google de los elementos");
+//			  				
+//			  				DistanceMatrixElement elemet = arrayDistanceMatrixResult.get(contGoogleAsk).rows[x].elements[y];
+//			  				System.out.println("elemento y="+y+": y su contenido es: distancia-"+elemet.distance+" duracion-"+elemet.duration+" status-"+elemet.status);
+//			  				
+//			  			}
+//			  		 }
+//			  		System.out.println("");
+//			  	} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//		  }
+		  
+		  /*
 		  for(int cont=0; cont <= originsArrayList.size(); cont++) {
 			  System.out.println(":::::::::CONT:"+cont+"::::::::::");
 			  	try {
-			  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, originsArrayList.get(cont), destinyArrayList.get(cont)).await();
+			  		 arrayDistanceMatrixResult.add( DistanceMatrixApi.getDistanceMatrix(context, originsArrayList.get(cont), destinyArrayList.get(cont)).await());
 			  	
 			  	} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		  }
-		  
-		  
+		  */
 		  
 		  
 //		  for(int i=0; i< SizeNewLocation; i++){
@@ -329,7 +399,7 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 //		  }
 		
 		
-		return distanceTimeMatrixUtility;       
+		return null;//arrayDistanceMatrixResult;       
 	
 	}
 

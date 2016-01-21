@@ -3,6 +3,8 @@ package cl.citymovil.route_pro.message_listener.services;
 
 import java.util.List;
 
+import com.google.maps.model.DistanceMatrix;
+
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
@@ -14,7 +16,7 @@ public interface DistanceMatrixService {
 	
 	LocationContainer Preprocess();
 	
-	DistanceTimeMatrixUtility Process(LocationContainer locationConteiner);
+	 List <DistanceMatrix> Process(LocationContainer locationConteiner);
 
 	void PostProcess(List <DistanceTime> saveDistanceTime);
 
