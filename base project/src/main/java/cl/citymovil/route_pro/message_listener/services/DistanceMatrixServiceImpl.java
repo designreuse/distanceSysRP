@@ -12,14 +12,14 @@ import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
-import cl.citymovil.route_pro.solver.util.LocationConteiner;
+import cl.citymovil.route_pro.solver.util.LocationContainer;
 
 @Service
 public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 
 	
 	@Autowired
-	LocationConteiner conteinerLocation;
+	LocationContainer conteinerLocation;
 	
 	@Autowired
 	AskToGoogle askToGoogle;
@@ -31,7 +31,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	
 
 	@Override
-	public LocationConteiner Preprocess() {
+	public LocationContainer Preprocess() {
 		//Busqueda de nuevas locaciones 
 		//Busueda de las locaciones anteriores si es que encuentro nuevas locaciones, si no hay nuevas locaciones, retorno null.
 		
@@ -57,7 +57,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	@Override
-	public DistanceTimeMatrixUtility Process(LocationConteiner locationConteiner) {
+	public DistanceTimeMatrixUtility Process(LocationContainer locationConteiner) {
 		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
 		
 		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();

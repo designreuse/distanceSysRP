@@ -8,13 +8,13 @@ import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
-import cl.citymovil.route_pro.solver.util.LocationConteiner;
+import cl.citymovil.route_pro.solver.util.LocationContainer;
 
 public interface DistanceMatrixService {
 	
-	LocationConteiner Preprocess();
+	LocationContainer Preprocess();
 	
-	DistanceTimeMatrixUtility Process(LocationConteiner locationConteiner);
+	DistanceTimeMatrixUtility Process(LocationContainer locationConteiner);
 
 	void PostProcess(List <DistanceTime> saveDistanceTime);
 

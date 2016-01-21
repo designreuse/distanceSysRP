@@ -20,7 +20,7 @@ import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 
 
 @Service
-public class LocationConteiner {
+public class LocationContainer {
 	
 	public static final Logger log = LoggerFactory.getLogger(Location.class);
 

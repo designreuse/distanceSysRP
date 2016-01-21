@@ -16,7 +16,7 @@ import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
-import cl.citymovil.route_pro.solver.util.LocationConteiner;
+import cl.citymovil.route_pro.solver.util.LocationContainer;
 
 
 
@@ -31,7 +31,7 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 	
 	@SuppressWarnings("null")
 	@Override
-	public DistanceTimeMatrixUtility getDistanceByGoogle(LocationConteiner locationConteiner){//String[] newLocations,String[] oldLocations) {
+	public DistanceTimeMatrixUtility getDistanceByGoogle(LocationContainer locationContainer){//String[] newLocations,String[] oldLocations) {
 		  GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyB-ZZHRgGvMLczqzDZnmFBds4Zs27wm1AY");
 		  
 		  //1- necesito ingresar las nueva locaciones a la tabla de location para obtener su id
@@ -46,8 +46,8 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  
 		  //-----------------------------------------------------------------------------------//
 		  
-		  List<Location>  oldLocations= locationConteiner.getLocation();
-		  List<LocationTmp> newLocations = locationConteiner.getLocationTmp();
+		  List<Location>  oldLocations= locationContainer.getLocation();
+		  List<LocationTmp> newLocations = locationContainer.getLocationTmp();
 		  
 		  Integer SizeNewLocation = newLocations.size();
 		  
@@ -61,10 +61,10 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  List <LocationTmp> cola;
 		  Location cabezaOld;
 		  List <Location> colaOld;
-		  List <String[]> OriginsArrayList = null;
-		  List <String[]> DestinyArrayList = null;
-		  String[] Origins = null;
-		  String[] Destiny = null;
+		  List <String[]> originsArrayList = new ArrayList <String[]>();
+		  List <String[]> destinyArrayList = new ArrayList <String[]>();
+		  List <String> origins = new ArrayList<String>();
+		  List <String> destiny = new ArrayList<String>();
 		  
 		  boolean flagRevisionArrayIncompletos=true;
 		  
@@ -77,17 +77,41 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 				  cabezaOld = oldLocations.get(j);
 				  colaOld= oldLocations.subList(j+1, SizeOldLocation);
 				  
-				  Origins[j]=cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp();
-				  Destiny[j]=cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
+			/*
+			 * 
+			 * List<String> a = new ArrayList<String>();
+					a.add("kk");
+					a.add("pp");
+					
+					And then you can have an array again by using toArray:
+					
+					String[] myArray = new String[a.size()];
+					a.toArray(myArray);
+			 * 
+			 * 
+			 */
+				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabeza.getLatitudeTmp()+","+cabeza.getLongitudeTmp()+"::::");
+				  System.out.println("::: ESTO ES LO QUE ENCUENTRO EN ORIGINS PREVIO A LA CAIDA "+cabezaOld.getLatitude()+","+cabezaOld.getLongitude()+"::::");
+				  System.out.println("::: CONTADORES I:"+i+":: J:"+j+"::");
+				  
+				  String temp =  cabezaOld.getLatitude()+","+cabezaOld.getLongitude();
+				  
+				  destiny.add(temp);
+				  origins.add(temp);//cabeza.getLatitudeTmp().toString()+","+cabeza.getLongitudeTmp().toString()
 				  
 				  if(contDeConsultas+1==MaxConsultGoogle){
+					  String[] OriginsStringArray = new String[origins.size()];
+					  origins.toArray(OriginsStringArray);
+					  originsArrayList.add(contDeArreglos, OriginsStringArray);
 					  
-					  OriginsArrayList.add(contDeArreglos, Origins);
-					  DestinyArrayList.add(contDeArreglos, Destiny);
+					  String[] DestinysStringArray = new String[destiny.size()];
+					  destiny.toArray(DestinysStringArray);
+					  destinyArrayList.add(contDeArreglos, DestinysStringArray);
+					  
 					  contDeArreglos++;
 					  contDeConsultas=0;
-					  Origins = null;
-					  Destiny = null;
+					  origins.clear();
+					  destiny.clear();
 					  flagRevisionArrayIncompletos=false;
 				  }else{
 					  flagRevisionArrayIncompletos=true;
@@ -100,14 +124,19 @@ DistanceTimeMatrixUtility distanceTimeMatrixUtility;
 		  }
 		  
 		  if(flagRevisionArrayIncompletos==true){
-			  OriginsArrayList.add(contDeArreglos, Origins);
-			  DestinyArrayList.add(contDeArreglos, Destiny);
+			  String[] OriginsStringArray = new String[origins.size()];
+			  String[] DestinysStringArray = new String[destiny.size()];
+			  destiny.toArray(DestinysStringArray);
+			  origins.toArray(OriginsStringArray);
+			  
+			  originsArrayList.add(contDeArreglos, OriginsStringArray);
+			  destinyArrayList.add(contDeArreglos, OriginsStringArray);
 			  contDeConsultas++;
 		  }
 		  for(int cont=0; cont <= contDeConsultas; cont++) {
-			  
+			  System.out.println(":::::::::CONT:"+cont+"::::::::::");
 			  	try {
-			  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, OriginsArrayList.get(cont), DestinyArrayList.get(cont)).await();
+			  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, originsArrayList.get(cont), destinyArrayList.get(cont)).await();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
