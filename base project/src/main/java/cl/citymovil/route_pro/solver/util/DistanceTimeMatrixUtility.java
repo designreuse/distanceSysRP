@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.maps.model.DistanceMatrix;
+
 import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
@@ -19,25 +21,32 @@ public class DistanceTimeMatrixUtility {
 	public static Logger getLog() {
 		return log;
 	}
-	private DistanceTimeMatriz[] distanceTimeMatriz;
 	
-	public DistanceTimeMatriz[] getDistanceTimeMatriz() {
-		return distanceTimeMatriz;
+	private DistanceMatrix distanceMatrix;
+	private String[] origen;
+	private String[] destiny;
+	
+	
+	public DistanceTimeMatrixUtility(){}
+	
+	public DistanceMatrix getDistanceMatrix() {
+		return distanceMatrix;
+	}
+	public void setDistanceMatrix(DistanceMatrix distanceMatrix) {
+		this.distanceMatrix = distanceMatrix;
+	}
+	public String[] getOrigen() {
+		return origen;
+	}
+	public void setOrigen(String[] origen) {
+		this.origen = origen;
+	}
+	public String[] getDestiny() {
+		return destiny;
+	}
+	public void setDestiny(String[] destiny) {
+		this.destiny = destiny;
 	}
 
-	public void setDistanceTimeMatriz(DistanceTimeMatriz[] distanceTimeMatriz) {
-		this.distanceTimeMatriz = distanceTimeMatriz;
-	}
-	public void appendDistanceTime(DistanceTimeMatriz distanceTimeMatriz){
-		System.out.println("////////////////////////////////////////////////////////////////////////////////");
-		System.out.println("ingresando un DistanceTime al arreglo con largo: "+this.distanceTimeMatriz.length);
-		this.distanceTimeMatriz[this.distanceTimeMatriz.length]=distanceTimeMatriz;
-		System.out.println("////////////////////////////////////////////////////////////////////////////////");
-		System.out.println("Ingreso realizado al arreglo con nuevo largo: "+this.distanceTimeMatriz.length);
-		
-		
-	}
-
-	
 
 }

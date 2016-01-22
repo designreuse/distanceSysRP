@@ -49,7 +49,7 @@ public class DistanceTimeMatrixController {
    	
    	
    	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
-    List <DistanceMatrix> distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+   	DistanceTimeMatrixUtility[]  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
     
     
     	

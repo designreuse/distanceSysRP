@@ -9,7 +9,7 @@ import cl.citymovil.route_pro.solver.util.LocationContainer;
 
 public interface AskToGoogle {
 	
-	public List <DistanceMatrix> getDistanceByGoogle(LocationContainer locationConteiner);
+	public DistanceTimeMatrixUtility[]  getDistanceByGoogle(LocationContainer locationConteiner);
 	public void getTimeByGoogle();
 
 }

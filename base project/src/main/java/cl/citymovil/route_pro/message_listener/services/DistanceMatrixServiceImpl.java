@@ -24,12 +24,6 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	
 	@Autowired
 	AskToGoogle askToGoogle;
-	
-
-	
-	
-	
-	
 
 	@Override
 	public LocationContainer Preprocess() {
@@ -41,68 +35,32 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		conteinerLocation.LoadLocationConteiner();
 		
 		return conteinerLocation;
-		//LocationConteiner conteinerLocation = new LocationConteiner();
-		
-	
-		
-		
-		
-		//Location location = (Location) list.iterator();
-//		while (((Iterator<Location>) location).hasNext()){
-//			System.out.println("Imprimiendo Algo");
-//		  System.out.println(((Iterator<Location>) location).next());
-//		}
-		//System.out.println("Saliendo");
-		
-	
+
 	}
 
 	@Override
-	public  List <DistanceMatrix> Process(LocationContainer locationConteiner) {
+	public  DistanceTimeMatrixUtility[]  Process(LocationContainer locationConteiner) {
 		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
 		
 		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
 		if(newLocation==null){
+			
 			System.out.println("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
 			return null;
+			
 		}else{
 			
-			
-			
-			 List <DistanceMatrix> resp = askToGoogle.getDistanceByGoogle(locationConteiner);
+			DistanceTimeMatrixUtility[]  resp = askToGoogle.getDistanceByGoogle(locationConteiner);
 			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
+			
 			return resp;
-//			 for (LocationTmp locTmp: newLocation) {
-//				 String LatLongNEWLocation=String.valueOf(locTmp.getLatitudeTmp())+","+String.valueOf(locTmp.getLongitudeTmp());
-//				
-//				 
-//				 	for(Location loc: oldLocation){
-//				 		 origins[contLoc]=LatLongNEWLocation; 
-//				 		 String LatLongOLDLocation=String.valueOf(loc.getLatitude())+","+String.valueOf(loc.getLongitude());
-//				 		 destiny[contLoc]=LatLongOLDLocation; 
-//						 contLoc++;
-//						 
-//			    	  
-//			       }
-//				 	MatrizDisData[0][1]=askToGoogle.getDistanceByGoogle();
-//				 	
-//				 
-//			    }
-			 
 		
-			
-			
 		}
 //		askToGoogle.getDistanceByGoogle();
-		
-		
-		
-	
-		
 	}
 
 	@Override
-	public void PostProcess(List<DistanceTime> saveDistanceTime) {
+	public void PostProcess(DistanceTimeMatrixUtility[]  saveDistanceTime) {
 		// TODO Auto-generated method stub
 		
 	}
