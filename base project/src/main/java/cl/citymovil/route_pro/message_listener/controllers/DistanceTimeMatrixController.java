@@ -50,6 +50,8 @@ public class DistanceTimeMatrixController {
    	
    	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
    	DistanceTimeMatrixUtility[]  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+   	
+   	distanceMatrixService.PostProcess(distanceMatrixList);
     
     
     	

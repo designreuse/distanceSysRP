@@ -1,5 +1,8 @@
 package cl.citymovil.route_pro.solver.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,19 @@ public class DistanceTimeMatrixUtility {
 	private DistanceMatrix distanceMatrix;
 	private String[] origen;
 	private String[] destiny;
+	private List <Long[]> idOriginDestiny=new ArrayList <Long[]>();
 	
 	
+	
+
+	public List<Long[]> getIdOriginDestiny() {
+		return idOriginDestiny;
+	}
+
+	public void setIdOriginDestiny(List<Long[]> idOriginDestiny) {
+		this.idOriginDestiny = idOriginDestiny;
+	}
+
 	public DistanceTimeMatrixUtility(){}
 	
 	public DistanceMatrix getDistanceMatrix() {

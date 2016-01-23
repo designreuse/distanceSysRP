@@ -11,6 +11,6 @@ public interface DistanceMatrixService {
 	
 	DistanceTimeMatrixUtility[]  Process(LocationContainer locationConteiner);
 
-	void PostProcess(DistanceTimeMatrixUtility[]  saveDistanceTime);
+	void PostProcess(DistanceTimeMatrixUtility[]  distanceTimeMatrixUtility);
 
 }

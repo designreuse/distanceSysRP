@@ -59,9 +59,40 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 //		askToGoogle.getDistanceByGoogle();
 	}
 
+	//debo considerar que el largo de distanceTimeMatrixUtility es variable, para poder modificar 
+	//la cantidad de string en el array que contiene tanto el origen como el destino en process
 	@Override
-	public void PostProcess(DistanceTimeMatrixUtility[]  saveDistanceTime) {
-		// TODO Auto-generated method stub
+	public void PostProcess(DistanceTimeMatrixUtility[]  distanceTimeMatrixUtility) {
+		 System.out.println("///////////iniciando el PostProcess//////////");
+		Integer cantidadDeSolicitudesGoogle=distanceTimeMatrixUtility.length;
+		int countArraySolicitudGoogle=0;
+		for(countArraySolicitudGoogle=0; countArraySolicitudGoogle < cantidadDeSolicitudesGoogle; countArraySolicitudGoogle++){
+			List<Long[]> idOriginsDestiny = distanceTimeMatrixUtility[countArraySolicitudGoogle].getIdOriginDestiny();
+			DistanceMatrix distanceDuration = distanceTimeMatrixUtility[countArraySolicitudGoogle].getDistanceMatrix();
+			 String[] origins = distanceTimeMatrixUtility[countArraySolicitudGoogle].getOrigen();
+			 String[] destinies = distanceTimeMatrixUtility[countArraySolicitudGoogle].getDestiny();
+			 
+			 System.out.println("//////////////////////////////////////");
+					 System.out.println("Origins: "+origins.length+" - Destiny: "+destinies.length+" idOriginsDes:"+idOriginsDestiny);
+			 System.out.println("//////////////////////////////////////");
+			 if(origins.length==destinies.length && origins.length==idOriginsDestiny.size() && destinies.length==idOriginsDestiny.size()){
+				 
+				 System.out.println("//////////////////////////////////////");
+				 System.out.println("//////////////////////////////////////");
+				 System.out.println("///////////////LOS TRES ARREGLOS TIENEN EL MISMO LARGO///////////////////////");
+				 System.out.println("//////////////////////////////////////");
+				 System.out.println("////////////////TODO OK//////////////////////");
+				 System.out.println("//////////////////////////////////////");
+			 }
+			for(int count=0; count< distanceTimeMatrixUtility.length; count++){
+				
+				
+				
+			}
+		}
+		
+		
+		
 		
 	}
 
