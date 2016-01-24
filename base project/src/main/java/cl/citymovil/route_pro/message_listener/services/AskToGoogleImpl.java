@@ -65,7 +65,8 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 		////////////////////Variables definitivas//////////////////
 		
 		ArrayList <ArrayList<RelationLocation>> listOfListRelationLocationsGoogle= new ArrayList <ArrayList <RelationLocation >>();
-		ArrayList <RelationLocation> listRelationLocation =new ArrayList <RelationLocation>();
+		ArrayList <RelationLocation> listRelationLocationWithMaxLength =new ArrayList <RelationLocation>();
+		ArrayList <RelationLocation> listRelationLocationDeRetorno =new ArrayList <RelationLocation>();
 		  List<Location>  oldLocations= locationContainer.getLocation();
 		  List<LocationTmp> newLocations = locationContainer.getLocationTmp();
 		  Integer sizeNewLocation = newLocations.size();
@@ -140,7 +141,7 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 				
 				/**ALMACENAMIENTO EN EL LIST RELATIONLOCATION**/
 				System.out.println("************   countOfLocation:"+countOfQueryGoogle+"----- countOfLocation:"+countOfLocation);
-				listRelationLocation.add(relationLocation);
+				listRelationLocationWithMaxLength.add(relationLocation);
 				//listRelationLocation.get(countOfQueryGoogle).add(countOfLocation-1, relationLocation);
 				
 				/**GENERACION DE LIST PARA CONSULTA A GOOGLE**/
@@ -165,7 +166,9 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 					//almaceno los String[25] en un List <String[]> que luego utilizaré para consultar a google
 					origenLocationsList.add(countOfQueryGoogle, origenPosition);
 					destinyLocationsList.add(countOfQueryGoogle, destinyPosition);	
-					listOfListRelationLocationsGoogle.add(countOfQueryGoogle, listRelationLocation);
+					
+					 /**AlMACENAMIENTO DE LAS LOCACIONES EN LA LISTA DE LISTAS DE RELACIONES DE LOCACIÓN DE LARGO=MaxConsultGoogle**/
+					listOfListRelationLocationsGoogle.add(countOfQueryGoogle, listRelationLocationWithMaxLength);
 					//listContainerOfListOrigDest.add(contDeArreglos, idPositionLatLng);
 					
 					//newPositionStringList.clear();
@@ -174,7 +177,7 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 					//idLocationsList.clear();
 					
 					//modificacion de variable post if
-					listRelationLocation=new ArrayList <RelationLocation>();
+					listRelationLocationWithMaxLength=new ArrayList <RelationLocation>();
 					countOfLocation=0;
 					countOfQueryGoogle++;
 					flag=false;
@@ -186,9 +189,9 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 		  }
 		  /**EMPAQUETADO PARA CONSULTA A GOOGLE CON ARRAY LONG DE LARGO  < MaxConsultGoogle**/
 		  if(flag==true && (newPositionStringList.size() == oldPositionStringList.size() )  ) {
-			  for(int countOfLoc=0; countOfLoc < newPositionStringList.size();countOfLoc++ ){
-				  
-			  }
+			 
+			  /**AlMACENAMIENTO DEL RESTO DE LAS LOCACIONES EN LA LISTA DE LISTAS DE RELACIONES DE LOCACIÓN**/
+			  listOfListRelationLocationsGoogle.add(countOfQueryGoogle, listRelationLocationWithMaxLength);
 			  
 			  origenPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
 			  destinyPosition = oldPositionStringList.toArray(new String[oldPositionStringList.size()]);
@@ -224,17 +227,17 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 			
 				 	/****   CONSULTANDO A GOOGLE    ****/	 
 				  	try {
-				  		 for(count=0;  count < countOfQueryGoogle ; count++){
+				  		 for(int count1=0;  count1 < countOfQueryGoogle ; count1++){
 				  			 
-					  		System.out.println("::::Contador:"+count);
-					  		System.out.println("::::Tamaño origenLocationsList.get(contOldLoc).length:"+origenLocationsList.get(count).length);
-							System.out.println(":::Tamaño destinyLocationsList.get(contOldLoc).length:"+destinyLocationsList.get(count).length);
-							//System.out.println(":::Tamaño destinyLocationsList.get(contOldLoc).length:"+destinyLocationsList.get(count).length);
-//					  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, origenLocationsList.get(count), destinyLocationsList.get(count) ).await();
+					  		System.out.println("::::Contador:"+count1);
+					  		System.out.println("::::Tamaño origenLocationsList.get(contOldLoc).length:"+origenLocationsList.get(count1).length);
+							System.out.println(":::Tamaño destinyLocationsList.get(contOldLoc).length:"+destinyLocationsList.get(count1).length);
+							System.out.println(":::Tamaño listOfListRelationLocationsGoogle.get(count1).size():"+listOfListRelationLocationsGoogle.get(count1).size());
+					  		DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context, origenLocationsList.get(count1), destinyLocationsList.get(count1) ).await();
 					  	
 //					  		matrizArrayOrigDestTimeDur[count].setDistanceMatrix( result);
-					  		matrizArrayOrigDestTimeDur[count].setOrigen(origenLocationsList.get(count));
-					  		matrizArrayOrigDestTimeDur[count].setDestiny(destinyLocationsList.get(count));
+					  		matrizArrayOrigDestTimeDur[count1].setOrigen(origenLocationsList.get(count1));
+					  		matrizArrayOrigDestTimeDur[count1].setDestiny(destinyLocationsList.get(count1));
 					  		//matrizArrayOrigDestTimeDur[count].setIdOriginDestiny(listContainerOfListOrigDest.get(countOfLocation));
 					  		
 //					  		System.out.println("::::::::Id de origen:"+matrizArrayOrigDestTimeDur[count].getIdOriginDestiny()[0]+":::::::::");
