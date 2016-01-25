@@ -64,6 +64,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	@Override
 	public void PostProcess(DistanceTimeMatrixUtility[]  distanceTimeMatrixUtility) {
 		 System.out.println("///////////iniciando el PostProcess//////////");
+		 System.out.println("///////////AUN SIN IMPLEMENTAR//////////");
 		Integer cantidadDeSolicitudesGoogle=distanceTimeMatrixUtility.length;
 		int countArraySolicitudGoogle=0;
 		for(countArraySolicitudGoogle=0; countArraySolicitudGoogle < cantidadDeSolicitudesGoogle; countArraySolicitudGoogle++){
@@ -84,9 +85,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 				 System.out.println("////////////////TODO OK//////////////////////");
 				 System.out.println("//////////////////////////////////////");
 			 }
-			for(int count=0; count< distanceTimeMatrixUtility.length; count++){
-				
-				
+			for(int count=0; count< distanceTimeMatrixUtility.length; count++){	
 				
 			}
 		}
