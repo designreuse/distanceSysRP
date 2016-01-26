@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.DistanceMatrixElement;
 
-import cl.citymovil.route_pro.message_listener.dao.LocationTmpDAOImpl;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
@@ -39,7 +37,8 @@ public class AskToGoogleImpl implements AskToGoogle {
 		// GeoApiContext context = new
 		// GeoApiContext().setApiKey("j61PmiK8glmpGIVYL47RQrm_zbKk=");//"AIzaSyB-ZZHRgGvMLczqzDZnmFBds4Zs27wm1AY");//AIzaSyBc-yEd3hfr4Q9GEVf2uYu_JaGbtLNlt7Y
 		Date d = new Date();
-//		System.out.println("****************************Tiempo Ahora:" + d.toString());
+		System.out.println("****************************Tiempo Ahora:" + d.toString());
+		logger.info("hora: "+ d.toString());
 		GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning",
 				"j-NB2bOlmRUMInQ459WVwrf7O9w=");
 
@@ -346,13 +345,13 @@ public class AskToGoogleImpl implements AskToGoogle {
 							
 					} catch (Exception e) {
 						cont2--;
-						//e.printStackTrace();
-						System.out.println("error!!!");
-
+						e.printStackTrace();
+//						System.out.println("error!!!");
+							
 						
 						try {
-						
-							Thread.sleep(3000);
+							Thread.sleep(2000);
+							
 							
 						} catch (Exception e2) {
 							// TODO: handle exception
@@ -480,8 +479,7 @@ public class AskToGoogleImpl implements AskToGoogle {
 		// }
 		// ----------------------------------FIN-----------------------//
 
-		Date d1 = new Date();
-		// System.out.println("Tiempo Ahora:"+d1.toString());
+	
 
 		// System.out.println("Entrega de datos finales");
 		for (int contador = 0; contador < listRelationLocationDeRetorno.size(); contador++) {
@@ -493,6 +491,11 @@ public class AskToGoogleImpl implements AskToGoogle {
 			// System.out.println("SecondLocation:
 			// "+finalRelationLocation.getSecondLocation()[0]+":"+finalRelationLocation.getSecondLocation()[1]);
 		}
+		
+		Date f = new Date();
+		System.out.println("****************************Tiempo Ahora que terminé:" + f.toString());
+		logger.info("hora: "+ f.toString());
+
 
 		return listRelationLocationDeRetorno;// arrayDistanceMatrixResult;
 	}
