@@ -39,8 +39,7 @@ public class AskToGoogleImpl implements AskToGoogle {
 		Date d = new Date();
 		System.out.println("****************************Tiempo Ahora:" + d.toString());
 		logger.info("hora: "+ d.toString());
-		GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning",
-				"j-NB2bOlmRUMInQ459WVwrf7O9w=");
+		GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning","j-NB2bOlmRUMInQ459WVwrf7O9w=");
 
 		// 1- necesito ingresar las nueva locaciones a la tabla de location para
 		// obtener su id
