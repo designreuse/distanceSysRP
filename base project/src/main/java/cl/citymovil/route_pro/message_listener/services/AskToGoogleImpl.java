@@ -75,10 +75,6 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 		  
 		  List<LocationTmp> newLocations = locationContainer.getLocationTmp();
 		  
-		  for(int countLocationTmp=0; countLocationTmp <  newLocations.size(); countLocationTmp++){
-			 //ALMACENO EL LOCATIONTMP Y LO TRANSFORMO EN LOCATION
-			  
-		  }
 		  
 		  
 		  /** TRATAMIENTO DE LAS NUEVAS LOCACIONES**/
@@ -98,54 +94,88 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 		  System.out.println("@@@--- sizeNewLocation: "+sizeNewLocation+" sizeOldLocation:"+sizeOldLocation);
 		  int countOfLocation=1;
 		  int countOfQueryGoogle=0;
-		  
+		  int countOfLocationOrigin=1;
+		  int countOfQueryGoogleOrigin=0;
 		  List <String> newPositionStringList=new ArrayList <String>();
 		  List <String> oldPositionStringList=new ArrayList <String>();
-		  
 		  //Variables empleadas en Id
 		  Long idPositionOrigin;
 		  Long idPositionDestiny;
-//		  ArrayList <Long[]> idPositionLatLng= new ArrayList <Long[]>();
-//		  List <Long[]> idOriginDestino = new ArrayList <Long[]>();
-//		  List < List <Long[]>> listContainerOfListOrigDest= new ArrayList <List <Long[]>>();
-		  ///////////////////////////
 		////////////////////FIN Variables definitivas//////////////////	 
 		  String positionStringNew=new String();
-		  
-		 
 		  String[] origenPosition;
 		  String[] destinyPosition;
-		 
 		  List <String[]> origenLocationsList= new ArrayList <String[]>();
 		  List <String[]> destinyLocationsList= new ArrayList <String[]>();
 		 // List <Long[]> idLocationsList= new ArrayList <Long[]>();
 		  Boolean flag=true;
-	
-		  
+		  Boolean flagOrigins=true;
 		  
 		  /********* DESARROLLO*************/
 		  
-		  //obtengo una nueva locacion
+		  //Genero todos los ORIGENES en array de maximo 25
+		  for(int contNewLoc=0; contNewLoc < sizeNewLocation; contNewLoc++){
+			  /** GENERACION DE LIST ORIGEN **/
+				//ORIGEN
+			
+			  /**LAT - LONG - ID DEL ORIGEN*/
+				Double[] originPositionLatLng = new Double[2];
+				
+				/**DATOS OBTENIDOS DEL PROCESO ANTERIOR PARA GENERAR EL RELATIONLOCATION**/
+				originPositionLatLng[0]=newLocations.get(contNewLoc).getLatitudeTmp();
+				originPositionLatLng[1]=newLocations.get(contNewLoc).getLongitudeTmp();
+				idPositionOrigin=newLocations.get(contNewLoc).getLocationId();
+				
+				/**DATOS PARA GENERAR LA CONSLUTA DE GOOGLE*/
+				//RECOPILO LOS DATOS DE LAT Y LNG, LOS ALMACENO EN UN LIST Y POSTERIORMENTE LOS TRANSFORMO EN UN ARRAY
+				//DEACUERDO A LO REQUERIDO POR GOOGLE
+				positionStringNew=newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp();
+				newPositionStringList.add(positionStringNew);
+				origenPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
+				System.out.println("origenLocationsList countOfQueryGoogleOrigin: "+countOfQueryGoogleOrigin);
+				
+				
+				
+				if(countOfLocationOrigin==MaxConsultGoogle){//si hay mas de 25 locaciones de origen
+					origenLocationsList.add(countOfQueryGoogleOrigin, origenPosition);
+					countOfLocationOrigin=1;
+					countOfQueryGoogleOrigin++;
+					flagOrigins=false;
+					
+				}else{
+					flagOrigins=true;
+				}
+				countOfLocationOrigin++;
+		  }
+		  
+		  if(flagOrigins==true){
+			  
+			  origenPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
+			  origenLocationsList.add(countOfQueryGoogleOrigin, origenPosition);  
+		  }
+		  
+		  
+		  /**Leyendo DATOS PARA GENERAR LA CONSLUTA DE GOOGLE BORRAR ESTO DESPUES*/
+		  System.out.println("origenLocationsList.size()"+origenLocationsList.size());
+		  for(int i=0; i < origenLocationsList.size(); i++ ){
+			  
+			  System.out.println("origenLocationsList.get(i).length"+origenLocationsList.get(i).length);
+			  for(int j=0; j < origenLocationsList.get(i).length; j++){
+				  System.out.println("origenLocationsList.get(i)"+origenLocationsList.get(i)[j]);
+			  }
+			  
+		  }
+		  
+		  
+		  
+		  //PROCESO LOS ARRAY DE ORIGEN GENERADOS PREVIAMENTE JUNTO CON LOS ARRAY DE ADESTINO
 		  for(int contNewLoc=0; contNewLoc < sizeNewLocation; contNewLoc++){
 			  
 			//obtengo una posicion nueva y despues de eso genero todas el arreglo de consultas hasta completar un array de largo 25,
 			  //si el array no llega a 25, es copiado entero en el sgte paso gracias a un flag que identifica esta situacion.
 			 
 			  //System.out.println("@@@--- contNewLoc: "+contNewLoc);
-			  /** GENERACION DE LIST ORIGEN **/
-				//ORIGEN
-				newPositionStringList.add(positionStringNew);
-				origenPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
-				origenLocationsList.add(countOfQueryGoogle, origenPosition);
-				
-				
-				
-			  positionStringNew=newLocations.get(contNewLoc).getLatitudeTmp()+","+newLocations.get(contNewLoc).getLongitudeTmp();
 			  
-				Double[] originPositionLatLng = new Double[2];
-				originPositionLatLng[0]=newLocations.get(contNewLoc).getLatitudeTmp();
-				originPositionLatLng[1]=newLocations.get(contNewLoc).getLongitudeTmp();
-				idPositionOrigin=newLocations.get(contNewLoc).getLocationId();
 			 
 			  /********LO USO???*/
 			 // LocationTmp originPosition = newLocations.get(contNewLoc);
@@ -162,62 +192,28 @@ DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
 				destinyPositionLatLng[1]=oldLocations.get(contOldLoc).getLongitude();
 				idPositionDestiny=oldLocations.get(contOldLoc).getLocationId();
 				
-				
-				
 				/**Almacenamiento en relationLocation*/
 				//almacenamiento en un relationLocation de la posicion de origen, destino, los id respectivos y 
 				//la distancia y duracion entre cada uno en ambas direcciones
 				/**LAT - LONG - ID DEL ORIGEN*/
-				relationLocation.setFirstLocation(originPositionLatLng);
-				relationLocation.setIdFirstLocation(idPositionOrigin);
+//				relationLocation.setFirstLocation(originPositionLatLng);
+//				relationLocation.setIdFirstLocation(idPositionOrigin);
 				/**LAT - LONG - ID DEL DESTINO*/
 				relationLocation.setSecondLocation(destinyPositionLatLng);
 				relationLocation.setIdSecondLocation(idPositionDestiny);
-//				System.out.println("************SETEO DEL RELATIONLOCATION *************   :");
-//				System.out.println("************SETEO DEL setFirstLocation ******"+originPositionLatLng[0]+"-"+originPositionLatLng[1]);
-//				System.out.println("************SETEO DEL IdFirstLocation ******"+idPositionOrigin+":");
-//				System.out.println("************SETEO DEL SecondLocation ***"+destinyPositionLatLng[0]+"-"+originPositionLatLng[1]);
-//				System.out.println("************SETEO DEL IdSecondLocation ****"+idPositionDestiny+"");
-				
-				
 				/**ALMACENAMIENTO EN EL LIST RELATIONLOCATION**/
-//				System.out.println("************   countOfLocation:"+countOfQueryGoogle+"----- countOfLocation:"+countOfLocation);
 				listRelationLocationWithMaxLength.add(relationLocation);
-				//listRelationLocation.get(countOfQueryGoogle).add(countOfLocation-1, relationLocation);
-				
 				/**GENERACION DE LIST PARA CONSULTA A GOOGLE**/
-				
 				//DESTINO
 				oldPositionStringList.add(contOldLoc,oldLocations.get(contOldLoc).getLatitude()+","+oldLocations.get(contOldLoc).getLongitude());
-				
-				
-				
-			    //almacenamiento respectivo de id origen e id destino
-			  //  idPositionLatLng.add(contDeConsultas, idOriginDestino);
-			    
-				//creado el destino y origen para la primera consulta, se aumenta el contador de consultas, que hace de contador de largo del arreglo
 				countOfLocation++;
 				/**EMPAQUETADO PARA CONSULTA A GOOGLE CON ARRAY LONG DE LARGO=MaxConsultGoogle**/
 				//verifico si se ha llegado al largo de 25 	
 				if(countOfLocation==MaxConsultGoogle){//newPositionStringList.size()==25
-					
-					//transformo los List <String> a String[]
 					destinyPosition = oldPositionStringList.toArray(new String[oldPositionStringList.size()]);
-					
-					//almaceno los String[25] en un List <String[]> que luego utilizaré para consultar a google
-					//origenLocationsList.add(countOfQueryGoogle, origenPosition);
-					destinyLocationsList.add(countOfQueryGoogle, destinyPosition);	
-					
+					destinyLocationsList.add(countOfQueryGoogle, destinyPosition);
 					 /**AlMACENAMIENTO DE LAS LOCACIONES EN LA LISTA DE LISTAS DE RELACIONES DE LOCACIÓN DE LARGO=MaxConsultGoogle**/
 					listOfListRelationLocationsGoogle.add(countOfQueryGoogle, listRelationLocationWithMaxLength);
-					//listContainerOfListOrigDest.add(contDeArreglos, idPositionLatLng);
-					
-					//newPositionStringList.clear();
-					//oldPositionStringList.clear();
-					//idPositionLatLng.clear();
-					//idLocationsList.clear();
-					
-					//modificacion de variable post if
 					listRelationLocationWithMaxLength=new ArrayList <RelationLocation>();
 					countOfLocation=1;
 					countOfQueryGoogle++;
