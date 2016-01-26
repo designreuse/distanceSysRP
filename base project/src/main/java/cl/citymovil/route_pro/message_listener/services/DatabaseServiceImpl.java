@@ -45,9 +45,10 @@ public class DatabaseServiceImpl implements DatabaseService{
 
 	@Override
 	public void addVehiclePositionTest(Location location) {
-	
-		vehiclePositionDAO.addVehiclePositionTest(location);
+		// TODO Auto-generated method stub
 		
 	}
+
+
 	
 }

@@ -43,15 +43,6 @@ public class LocationTmpDAOImpl implements LocationTmpDAO{
 		return locationsTmp;
 	}
 
-	
- 
-	
-	
-
-
-
-	
-
 	@Override
 	public void deleteTmpLocation(long LocationId) {
 		// TODO Auto-generated method stub
@@ -60,11 +51,13 @@ public class LocationTmpDAOImpl implements LocationTmpDAO{
 
 	
 
-	@Override
+	@Transactional(readOnly = true)
 	public void mergeTmpLocation(LocationTmp loc) {
-		// TODO Auto-generated method stub
+		em.persist(loc);
 		
 	}
+	
+	
 
 	@Override
 	public void persistTmpLocation(LocationTmp loc) {

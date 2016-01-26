@@ -35,6 +35,7 @@ public class LocationDAOImpl implements LocationDAO{
 	@Override
 	public void persistLocation(Location loc) {
 		// TODO Auto-generated method stub
+		em.persist(loc);
 		
 	}
 
@@ -42,7 +43,7 @@ public class LocationDAOImpl implements LocationDAO{
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	public List<Location> getLocationList() {
-		System.out.println("/////// inicialndo getLocationList ///////");
+//		System.out.println("/////// inicialndo getLocationList ///////");
 		
 		Query query = this.em.createQuery("SELECT s FROM Location s");//en la consulta, es necesario el 
 		                                                              //nombre de la clase y no el nombre de la table de la base de datos

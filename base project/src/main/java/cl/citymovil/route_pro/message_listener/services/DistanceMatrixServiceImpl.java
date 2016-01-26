@@ -1,6 +1,7 @@
 package cl.citymovil.route_pro.message_listener.services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
+import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 @Service
 public class DistanceMatrixServiceImpl implements DistanceMatrixService{
@@ -30,7 +32,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		//Busqueda de nuevas locaciones 
 		//Busueda de las locaciones anteriores si es que encuentro nuevas locaciones, si no hay nuevas locaciones, retorno null.
 		
-		System.out.println("en Preprocess %%%%% ");
+//		System.out.println("en Preprocess %%%%% ");
 		
 		conteinerLocation.LoadLocationConteiner();
 		
@@ -39,19 +41,19 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	@Override
-	public  DistanceTimeMatrixUtility[]  Process(LocationContainer locationConteiner) {
-		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
+	public  ArrayList<RelationLocation>  Process(LocationContainer locationConteiner) {
+//		System.out.println(":::::::  Iniciando Proceso de Carga de GOOGLE  ::::::::::");
 		
 		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
 		if(newLocation==null){
 			
-			System.out.println("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
+//			System.out.println("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
 			return null;
 			
 		}else{
 			
-			DistanceTimeMatrixUtility[]  resp = askToGoogle.getDistanceByGoogle(locationConteiner);
-			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
+			ArrayList<RelationLocation>  resp = askToGoogle.getDistanceByGoogle(locationConteiner);
+//			System.out.println(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
 			
 			return resp;
 		
@@ -62,36 +64,21 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	//debo considerar que el largo de distanceTimeMatrixUtility es variable, para poder modificar 
 	//la cantidad de string en el array que contiene tanto el origen como el destino en process
 	@Override
-	public void PostProcess(DistanceTimeMatrixUtility[]  distanceTimeMatrixUtility) {
-		 System.out.println("///////////iniciando el PostProcess//////////");
-		 System.out.println("///////////AUN SIN IMPLEMENTAR//////////");
-		Integer cantidadDeSolicitudesGoogle=distanceTimeMatrixUtility.length;
-		int countArraySolicitudGoogle=0;
-		for(countArraySolicitudGoogle=0; countArraySolicitudGoogle < cantidadDeSolicitudesGoogle; countArraySolicitudGoogle++){
-			List<Long[]> idOriginsDestiny = distanceTimeMatrixUtility[countArraySolicitudGoogle].getIdOriginDestiny();
-			DistanceMatrix distanceDuration = distanceTimeMatrixUtility[countArraySolicitudGoogle].getDistanceMatrix();
-			 String[] origins = distanceTimeMatrixUtility[countArraySolicitudGoogle].getOrigen();
-			 String[] destinies = distanceTimeMatrixUtility[countArraySolicitudGoogle].getDestiny();
-			 
-			 System.out.println("//////////////////////////////////////");
-					 System.out.println("Origins: "+origins.length+" - Destiny: "+destinies.length+" idOriginsDes:"+idOriginsDestiny);
-			 System.out.println("//////////////////////////////////////");
-			 if(origins.length==destinies.length && origins.length==idOriginsDestiny.size() && destinies.length==idOriginsDestiny.size()){
-				 
-				 System.out.println("//////////////////////////////////////");
-				 System.out.println("//////////////////////////////////////");
-				 System.out.println("///////////////LOS TRES ARREGLOS TIENEN EL MISMO LARGO///////////////////////");
-				 System.out.println("//////////////////////////////////////");
-				 System.out.println("////////////////TODO OK//////////////////////");
-				 System.out.println("//////////////////////////////////////");
-			 }
-			for(int count=0; count< distanceTimeMatrixUtility.length; count++){	
-				
-			}
-		}
-		
-		
-		
+	public void PostProcess(ArrayList<RelationLocation> relationLocationOfAllLocation) {
+//		 System.out.println("///////////iniciando el PostProcess//////////");
+//		 System.out.println("///////////AUN SIN IMPLEMENTAR//////////"+relationLocationOfAllLocation.size());
+		 
+		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
+			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
+//			 System.out.println("///////////// count: "+count);
+//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getFirstLocation()[0]+":"+relacion.getFirstLocation()[1]);
+//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getSecondLocation()[0]+":"+relacion.getSecondLocation()[1]);
+//			 System.out.println("/////////////");
+		 }
+		 
+		 
+
 		
 	}
 

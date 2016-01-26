@@ -1,15 +1,14 @@
 package cl.citymovil.route_pro.message_listener.services;
 
-import java.util.List;
 
-import com.google.maps.model.DistanceMatrix;
+import java.util.ArrayList;
 
-import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
+import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 public interface AskToGoogle {
 	
-	public DistanceTimeMatrixUtility[]  getDistanceByGoogle(LocationContainer locationConteiner);
+	public ArrayList<RelationLocation>  getDistanceByGoogle(LocationContainer locationConteiner);
 	public void getTimeByGoogle();
 
 }

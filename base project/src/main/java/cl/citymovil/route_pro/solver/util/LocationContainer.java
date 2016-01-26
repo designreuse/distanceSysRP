@@ -49,7 +49,7 @@ public class LocationContainer {
 		//////////////////////////////////
 			try {
 				listTmp=locationTmpDAO.getTmpLocationList();
-				System.out.println(" <><><> ::: EN TRY Buscando la lista de locaciones ya registradas ::: <><><> ");
+//				System.out.println(" <><><> ::: EN TRY Buscando la lista de locaciones ya registradas ::: <><><> ");
 				List<Location> list;
 				
 				list = locationDAO.getLocationList();
@@ -57,8 +57,8 @@ public class LocationContainer {
 				this.location=list;
 				this.locationTmp=listTmp;
 				
-				System.out.println("::: LISTANDO LOCACIONES :::");
-				this.listLocation();
+//				System.out.println("::: LISTANDO LOCACIONES :::");
+//				this.listLocation();
 				
 				
 			    listTmp = locationTmpDAO.getTmpLocationList();//locationDAO.getTmpLocationList();
@@ -73,7 +73,7 @@ public class LocationContainer {
 				// TODO: handle exception
 			}
 			
-			System.out.println("<<<<<<<<<<<<  saliendo del getLocationList()  >>>>>>>>>>>>>>>>");
+//			System.out.println("<<<<<<<<<<<<  saliendo del getLocationList()  >>>>>>>>>>>>>>>>");
 		
 			
 		
@@ -99,10 +99,10 @@ public class LocationContainer {
 			System.out.println(":: La lista de Locaciones se encuentra vacia o no ha sido cargada correctamente ::");
 		}else{
 			
-			 System.out.println (":::::: LISTA DE LOCACIONES INGRESADAS ::::::::::");
+			// System.out.println (":::::: LISTA DE LOCACIONES INGRESADAS ::::::::::");
 			 for (Location i: this.location) {
 				 
-			        System.out.println ("Dirección LocationID:"+i.getLocationId()+" Latitud:"+i.getLatitude()); //Muestra cada uno de los nombres dentro de listaDeNombres
+			  //      System.out.println ("Dirección LocationID:"+i.getLocationId()+" Latitud:"+i.getLatitude()); //Muestra cada uno de los nombres dentro de listaDeNombres
 			    }
 			
 		}

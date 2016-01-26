@@ -1,5 +1,6 @@
 package cl.citymovil.route_pro.message_listener.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixServiceImpl;
 import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
+import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 @Controller
 @RequestMapping(value="/priceincrease.htm")
@@ -36,20 +38,20 @@ public class DistanceTimeMatrixController {
    //@RequestMapping(value = "/priceincrease", method = RequestMethod.GET)
     public void onSubmit()
     {
-    	System.out.println("PAsando por el onSubmit via GET");
+//    	System.out.println("PAsando por el onSubmit via GET");
     	
     	//DistanceMatrixService distanceMatrixService = new DistanceMatrixServiceImpl();
     	
-    	System.out.println ("::::::INICIANDO PREPROCESS::::::::::");
+//    	System.out.println ("::::::INICIANDO PREPROCESS::::::::::");
     	LocationContainer locationConteiner = distanceMatrixService.Preprocess();
     	
-   	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
+//   	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
    	 locationConteiner.listLocation();
    	locationConteiner.listTmpLocation();
    	
    	
-   	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
-   	DistanceTimeMatrixUtility[]  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+//   	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
+   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
    	
    	distanceMatrixService.PostProcess(distanceMatrixList);
     
@@ -65,19 +67,19 @@ public class DistanceTimeMatrixController {
     
 
         locationManager.getValidateLocation(, lon);    */
-    System.out.println("::::::::::::::Mostrando el notenido de distanceMatrixList post Process:::::::::::::::");
+//    System.out.println("::::::::::::::Mostrando el notenido de distanceMatrixList post Process:::::::::::::::");
    // System.out.println(ToStringBuilder.reflectionToString(distanceMatrixList, ToStringStyle.MULTI_LINE_STYLE));
-    	System.out.println(" >>>>>>>>>>> Saliendo y Mandando una pagina que no existe<<<<<<<<<<<");
-    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
-    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
-    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
+//    	System.out.println(" >>>>>>>>>>> Saliendo y Mandando una pagina que no existe<<<<<<<<<<<");
+//    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
+//    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
+//    	System.out.println(" >>>>>>>>>>> ::::::::: FIN ::::::::<<<<<<<<<<<");
 
         
     }
 
     //@RequestMapping(method = RequestMethod.GET)
     protected void formBackingObject(HttpServletRequest request) throws ServletException {
-        System.out.println("PAsando por el formBackObject UUUUUUhhhhhhh");
+//        System.out.println("PAsando por el formBackObject UUUUUUhhhhhhh");
     }
 
     public void setLocationManager(DistanceMatrixService distanceMatrixService) {
