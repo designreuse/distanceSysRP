@@ -66,7 +66,20 @@ public class LocationTmp {
 	@Column(name="locality_tmp")
 	private String localityTmp;
 	
-public long getLocationId() {
+	public  LocationTmp(){}
+	
+	public LocationTmp(long locationId) {
+
+		this.locationId=locationId;
+	}
+
+	public LocationTmp(Double latitude, Double longitude) {
+
+		this.latitudeTmp = latitude;
+		this.longitudeTmp = longitude;
+	}
+	
+	public long getLocationId() {
 		return locationId;
 	}
 
@@ -145,21 +158,5 @@ public long getLocationId() {
 	public void setLocalityTmp(String localityTmp) {
 		this.localityTmp = localityTmp;
 	}
-
-	
-	
-	
-	
-	
-
-	public  LocationTmp(){}
-
-	public LocationTmp(Double latitude, Double longitude) {
-
-		this.latitudeTmp = latitude;
-		this.longitudeTmp = longitude;
-	}
-
-	
 
 }

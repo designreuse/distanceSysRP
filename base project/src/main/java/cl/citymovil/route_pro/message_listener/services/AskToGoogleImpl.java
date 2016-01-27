@@ -20,7 +20,7 @@ import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 @Service
-public class AskToGoogleImpl implements AskToGoogle {
+public class AskToGoogleImpl implements AskToGoogle{
 
 	protected final Log logger = LogFactory.getLog(getClass());
 

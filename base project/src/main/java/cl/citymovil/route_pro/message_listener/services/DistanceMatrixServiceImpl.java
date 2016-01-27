@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAO;
+import cl.citymovil.route_pro.message_listener.dao.LocationTmpDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
@@ -29,13 +30,22 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	
 	@Autowired
 	DistanceTimeDAO distanceTimeDAO;
+	
+	@Autowired
+	LocationTmpDAO locationTmpDAO;
 
 	@Override
 	public LocationContainer Preprocess() {
 		logger.info("\n**Inicio Preprocess**\n");
 		//Busqueda de nuevas locaciones 
 		//Busueda de las locaciones anteriores si es que encuentro nuevas locaciones, si no hay nuevas locaciones, retorno null.
-		conteinerLocation.LoadLocationConteiner();
+		boolean resultContainer = conteinerLocation.LoadLocationConteiner();
+		if(resultContainer==false){
+			return null;
+		}
+		int sizeLocationTmpActual = conteinerLocation.getLocationTmp().size();
+		logger.info("cantidad de LocationTmp"+sizeLocationTmpActual);
+		
 		logger.info("\n**FIN Preprocess**\n");
 		return conteinerLocation;
 
@@ -67,22 +77,32 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 			logger.info("\n**Inicio PostProcess**\n");
 		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
 			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
-			 
+			 LocationTmp locationTmp = new LocationTmp(relacion.getIdFirstLocation());
 			 logger.info("\n ///////////// count: "+count);
 			 logger.info("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
 			 logger.info("Id Primer Location: "+relacion.getIdFirstLocation());
 			 logger.info("Id Segundo Location: "+relacion.getIdSecondLocation());
-			 logger.info("/////////////");
+			 logger.info("///////////// \n");
+			 
 			 
 			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
+//			 locationTmp.setLocationId(relacion.getIdFirstLocation());
+			try {
+				locationTmpDAO.deleteTmpLocation(locationTmp);
+				System.out.println("Se Ha Borrado el LocationTMP");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			 distanceTimeDAO.persistDistanceTime(d);
+			 
+			 
+			 
 			// distanceTimeDAO.mergeDistanceTime(d);
-		 }
-		 
-		 
-
-		
+			 
+		 }	
 	}
+	
 
 
 	void mergeLocation(Location loc) {

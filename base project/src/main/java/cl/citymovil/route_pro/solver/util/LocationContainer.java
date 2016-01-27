@@ -42,7 +42,7 @@ public class LocationContainer {
 	private List<LocationTmp> locationTmp=null;
 	
 	
-	public void LoadLocationConteiner(){
+	public Boolean LoadLocationConteiner(){
 		
 		List<LocationTmp> listTmp;
 		
@@ -62,15 +62,15 @@ public class LocationContainer {
 				
 				
 			    listTmp = locationTmpDAO.getTmpLocationList();//locationDAO.getTmpLocationList();
-			   
+			   return true;
 			
 			} catch (Exception e) {
-				// TODO: handle exception
 				System.out.println(" *******<><><> ::: Saliendo porque no hay nueva locacion ::: <><><> ");
+				return false;
 			}
 			catch (IllegalAccessError e) {
 				System.out.println(" *******<><><> ::: Saliendo porque no hay nueva locacion ::: <><><> "+e);
-				// TODO: handle exception
+				return false;
 			}
 			
 //			System.out.println("<<<<<<<<<<<<  saliendo del getLocationList()  >>>>>>>>>>>>>>>>");

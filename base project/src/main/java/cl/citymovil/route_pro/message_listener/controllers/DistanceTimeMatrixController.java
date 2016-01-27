@@ -44,16 +44,22 @@ public class DistanceTimeMatrixController {
     	
 //    	System.out.println ("::::::INICIANDO PREPROCESS::::::::::");
     	LocationContainer locationConteiner = distanceMatrixService.Preprocess();
+    	if(locationConteiner==null){
+    		System.out.println("No hay LocationTmp para procesar.");
+    		
+    	}else{
     	
-//   	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
-   	 locationConteiner.listLocation();
-   	locationConteiner.listTmpLocation();
+	//   	 System.out.println (":::::: DESDE DISTANCETIME CONTROLLER ::::::::::");
+		   	 locationConteiner.listLocation();
+		   	 locationConteiner.listTmpLocation();
+	   	
+	   	
+	//   	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
+		   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+		   	
+		   	distanceMatrixService.PostProcess(distanceMatrixList);
    	
-   	
-//   	System.out.println (":::::: INICIANDO PROCESS ::::::::::");
-   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
-   	
-   	distanceMatrixService.PostProcess(distanceMatrixList);
+    	}
     
     
     	

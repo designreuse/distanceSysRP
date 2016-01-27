@@ -43,9 +43,15 @@ public class LocationTmpDAOImpl implements LocationTmpDAO{
 		return locationsTmp;
 	}
 
-	@Override
-	public void deleteTmpLocation(long LocationId) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void deleteTmpLocation(LocationTmp locationTmp) {
+		Query query = this.em.createQuery("delete LocationTmp where locationId = :ID");
+		query.setParameter("ID", locationTmp.getLocationId());
+		
+		System.out.println("Consulta REalizada a LocationTmp");
+		query.executeUpdate();
+		System.out.println("result de BORRADO:");
+		
 		
 	}
 
@@ -71,6 +77,9 @@ public class LocationTmpDAOImpl implements LocationTmpDAO{
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 
 
 

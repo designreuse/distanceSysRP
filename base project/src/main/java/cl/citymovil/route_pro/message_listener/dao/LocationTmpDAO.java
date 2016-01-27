@@ -16,6 +16,6 @@ public interface LocationTmpDAO {
     
     public void persistTmpLocation(LocationTmp loc);
     
-    public void deleteTmpLocation(long LocationId);
+    public void deleteTmpLocation(LocationTmp loc) throws Exception;
 
 }
