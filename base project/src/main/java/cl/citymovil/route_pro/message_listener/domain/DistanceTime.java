@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 @Entity
 @Table(name="distance_time_matrix")
 public class DistanceTime {
@@ -18,11 +19,10 @@ public class DistanceTime {
 	@JsonProperty("distance_time_matrix_id")
 	@Column(name="distance_time_matrix_id")
 	private String distanceTimeMatrixId;
-
 	private long origin;
 	private long destination;
-	private double distance;
-	private double duration;
+	private long distance;
+	private long duration;
 
 	public String getDistanceTimeMatrixId() {
 		return distanceTimeMatrixId;
@@ -36,31 +36,31 @@ public class DistanceTime {
 		return origin;
 	}
 
-	public void setOrigin(int start) {
-		this.origin = start;
+	public void setOrigin(long origin) {
+		this.origin = origin;
 	}
 
 	public long getDestination() {
 		return destination;
 	}
 
-	public void setDestination(int end) {
-		this.destination = end;
+	public void setDestination(int destination) {
+		this.destination = destination;
 	}
 
-	public double getDistance() {
+	public long getDistance() {
 		return distance;
 	}
 
-	public void setDistance(int distance) {
+	public void setDistance(long distance) {
 		this.distance = distance;
 	}
 
-	public double getDuration() {
+	public long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(long duration) {
 		this.duration = duration;
 	}
 }

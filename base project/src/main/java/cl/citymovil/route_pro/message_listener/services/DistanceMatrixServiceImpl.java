@@ -67,14 +67,15 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	public void PostProcess(ArrayList<RelationLocation> relationLocationOfAllLocation) {
 //		 System.out.println("///////////iniciando el PostProcess//////////");
 //		 System.out.println("///////////AUN SIN IMPLEMENTAR//////////"+relationLocationOfAllLocation.size());
-		 
+		System.out.println("\n\n En PostProcess\n\n");
 		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
 			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
-//			 System.out.println("///////////// count: "+count);
-//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
-//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getFirstLocation()[0]+":"+relacion.getFirstLocation()[1]);
-//			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getSecondLocation()[0]+":"+relacion.getSecondLocation()[1]);
-//			 System.out.println("/////////////");
+		
+			 System.out.println("\n ///////////// count: "+count);
+			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+			 System.out.println("Id Primer Location: "+relacion.getIdFirstLocation());
+			 System.out.println("Id Segundo Location: "+relacion.getIdSecondLocation());
+			 System.out.println("/////////////");
 		 }
 		 
 		 
