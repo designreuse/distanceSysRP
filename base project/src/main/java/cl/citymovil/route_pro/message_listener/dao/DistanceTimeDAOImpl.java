@@ -35,6 +35,7 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 	}
 
 	@Override
+	@Transactional
 	public void mergeDistanceTime(DistanceTime distanceTime) {
 		em.merge(distanceTime);
 		
@@ -45,9 +46,8 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 	public void persistDistanceTime(DistanceTime distanceTime) {
 		System.out.println("Ingresando a la base de datos un DistanceTime, sus datos son:\n");
 		System.out.println("Origen :"+distanceTime.getOrigin()+"\nDestination:"+distanceTime.getDestination()+"\nDistance:"+distanceTime.getDistance()+"\nDuration:"+distanceTime.getDuration());
-		
 		em.persist(distanceTime);
-		
+	
 	}
 
 }
