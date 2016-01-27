@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.maps.model.DistanceMatrix;
 
+import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAO;
+import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAOImpl;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeMatriz;
 import cl.citymovil.route_pro.message_listener.domain.Location;
@@ -26,6 +28,9 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	
 	@Autowired
 	AskToGoogle askToGoogle;
+	
+	@Autowired
+	DistanceTimeDAO distanceTimeDAO;
 
 	@Override
 	public LocationContainer Preprocess() {
@@ -70,12 +75,17 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		System.out.println("\n\n En PostProcess\n\n");
 		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
 			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
-		
+			 
 			 System.out.println("\n ///////////// count: "+count);
 			 System.out.println("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
 			 System.out.println("Id Primer Location: "+relacion.getIdFirstLocation());
 			 System.out.println("Id Segundo Location: "+relacion.getIdSecondLocation());
 			 System.out.println("/////////////");
+			 
+			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
+			 
+			 distanceTimeDAO.persistDistanceTime(d);
+			 
 		 }
 		 
 		 

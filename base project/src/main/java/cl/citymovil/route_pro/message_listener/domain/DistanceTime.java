@@ -19,11 +19,26 @@ public class DistanceTime {
 	@JsonProperty("distance_time_matrix_id")
 	@Column(name="distance_time_matrix_id")
 	private String distanceTimeMatrixId;
-	private long origin;
-	private long destination;
-	private long distance;
-	private long duration;
+	
 
+	private long origin;
+	
+	private long destination;
+	
+	private double distance;
+	private double duration;
+	
+	public DistanceTime(){}
+
+	public DistanceTime(long origin, long destination, long distance, long duration)
+	{
+		this.origin = origin;
+		this.destination = destination;
+		this.distance = distance;
+		this.duration = duration;
+	}
+	
+	
 	public String getDistanceTimeMatrixId() {
 		return distanceTimeMatrixId;
 	}
@@ -48,7 +63,7 @@ public class DistanceTime {
 		this.destination = destination;
 	}
 
-	public long getDistance() {
+	public double getDistance() {
 		return distance;
 	}
 
@@ -56,7 +71,7 @@ public class DistanceTime {
 		this.distance = distance;
 	}
 
-	public long getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 

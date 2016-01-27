@@ -23,42 +23,42 @@ public class DistanceTimeMatriz {
 	
 	@JsonProperty("distance_time_matrix_id")
 	@Id
-	@Column(name="distance_time_matrix_id")
+	@Column//(name="distance_time_matrix_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer distanceTimeMatrixId;
-	
-	private Double distance;
-	private Double duration;
-	private Integer end;
-	private Integer start;
+//	
+//	private Double distance;
+//	private Double duration;
+//	private Integer end;
+//	private Integer start;
 	
 	public  DistanceTimeMatriz(){}
 
 	
-	public Double getDistance() {
-		return distance;
-	}
-	public void setDistance(Double distance) {
-		this.distance = distance;
-	}
-	public Double getDuration() {
-		return duration;
-	}
-	public void setDuration(Double duration) {
-		this.duration = duration;
-	}
-	public Integer getEnd() {
-		return end;
-	}
-	public void setEnd(Integer end) {
-		this.end = end;
-	}
-	public Integer getStart() {
-		return start;
-	}
-	public void setStart(Integer start) {
-		this.start = start;
-	}
+//	public Double getDistance() {
+//		return distance;
+//	}
+//	public void setDistance(Double distance) {
+//		this.distance = distance;
+//	}
+//	public Double getDuration() {
+//		return duration;
+//	}
+//	public void setDuration(Double duration) {
+//		this.duration = duration;
+//	}
+//	public Integer getEnd() {
+//		return end;
+//	}
+//	public void setEnd(Integer end) {
+//		this.end = end;
+//	}
+//	public Integer getStart() {
+//		return start;
+//	}
+//	public void setStart(Integer start) {
+//		this.start = start;
+//	}
 	public Integer getDistanceTimeMatrixId() {
 		return distanceTimeMatrixId;
 	}
