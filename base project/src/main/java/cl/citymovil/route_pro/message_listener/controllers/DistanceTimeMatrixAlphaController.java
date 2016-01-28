@@ -17,6 +17,7 @@ import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
+import cl.citymovil.route_pro.message_listener.services.DistanceTimeMatrixServiceAlpha;
 
 @Controller
 @RequestMapping(value="/requestalpha.htm")
@@ -26,7 +27,7 @@ public class DistanceTimeMatrixAlphaController {
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    private DistanceMatrixService distanceMatrixService;
+    private DistanceTimeMatrixServiceAlpha distanceTimeMatrixServiceAlpha;
     
     /********** Inicio Adicional*/
     @Autowired
@@ -41,10 +42,9 @@ public class DistanceTimeMatrixAlphaController {
     	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
     	  /********** Fin Adicional*/
     	
-    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceMatrixService.PreprocessAlpha(arrayWithIdLocation);
+    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);
      	if(distanceTimeMatrixHashMap==null){
-     		System.out.println("No hay LocationTmp para procesar.");
-     		
+     		System.out.println("(FAIL)Don't have Location.");
      	}else{
      		
  		   //	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
@@ -56,12 +56,12 @@ public class DistanceTimeMatrixAlphaController {
     protected void formBackingObject(HttpServletRequest request) throws ServletException {
     }
 
-    public void setLocationManager(DistanceMatrixService distanceMatrixService) {
-        this.distanceMatrixService = distanceMatrixService;
-    }
-
-    public DistanceMatrixService getProductManager() {
-        return distanceMatrixService;
-    } 
+//    public void setLocationManager(DistanceMatrixService distanceMatrixService) {
+//        this.distanceMatrixService = distanceMatrixService;
+//    }
+//
+//    public DistanceMatrixService getProductManager() {
+//        return distanceMatrixService;
+//    } 
 
 }

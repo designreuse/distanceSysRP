@@ -121,40 +121,7 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 	}
 
 	 
-	@Override
-	public Map<Long, Map<Long, DistanceTimeData>> PreprocessAlpha(ArrayList<Location> listWithIdLocation) {
-		Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = new HashMap<Long, Map<Long, DistanceTimeData>>();
-		logger.info("\n**Inicio PreprocessAlpha**\n");
-		List <DistanceTime> distanceTimeMatrixActual = distanceTimeDAO.getDistanceTimeOriginsOf(listWithIdLocation);
-		if(distanceTimeMatrixActual!=null){
-		
-			for(int count=0; count < distanceTimeMatrixActual.size(); count++){
-				
-				Map<Long, DistanceTimeData> value = new HashMap<Long, DistanceTimeData>();
-				DistanceTimeData distanceTimeData = new DistanceTimeData( (long)distanceTimeMatrixActual.get(count).getDistance(), (long) distanceTimeMatrixActual.get(count).getDuration());
-				value.put(distanceTimeMatrixActual.get(count).getDestination(),distanceTimeData);
-				
-				distanceTimeMatrixHashMap.put(distanceTimeMatrixActual.get(count).getOrigin(), value);
-				
-			}
-			return distanceTimeMatrixHashMap;
-		}else{
-			return null;
-			
-		}
-		//Busqueda de nuevas locaciones 
-		//Busueda de las locaciones anteriores si es que encuentro nuevas locaciones, si no hay nuevas locaciones, retorno null.
-		
-//		boolean resultContainer = conteinerLocation.MakeLocationContainerWithArrayLocation(listWithIdLocation);
-//		if(resultContainer==false){
-//			return null;
-//		}else{
-//			
-//			return conteinerLocation;
-//		}
-		
-		
-	}
+	
 
 	@Override
 	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocationOfAllLocation) {
