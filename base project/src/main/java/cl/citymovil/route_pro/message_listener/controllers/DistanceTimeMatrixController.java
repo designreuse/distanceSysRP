@@ -1,13 +1,9 @@
 package cl.citymovil.route_pro.message_listener.controllers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.google.maps.model.DistanceMatrix;
-
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
-import cl.citymovil.route_pro.message_listener.services.DistanceMatrixServiceImpl;
-import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.RelationLocation;
 

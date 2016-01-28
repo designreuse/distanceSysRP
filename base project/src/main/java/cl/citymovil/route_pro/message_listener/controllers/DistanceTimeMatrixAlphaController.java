@@ -1,6 +1,7 @@
 package cl.citymovil.route_pro.message_listener.controllers;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
+import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
-import cl.citymovil.route_pro.solver.util.LocationContainer;
-import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 @Controller
 @RequestMapping(value="/requestalpha.htm")
@@ -36,19 +36,20 @@ public class DistanceTimeMatrixAlphaController {
     @RequestMapping(method = RequestMethod.GET)
      public void onSubmit()
      {
-    	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
-    	   /********** Adicional*/
     	
+    	   /********** Adicional*/
+    	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
     	  /********** Fin Adicional*/
     	
-     	LocationContainer locationConteiner = distanceMatrixService.PreprocessAlpha(arrayWithIdLocation);
-     	if(locationConteiner==null){
+    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceMatrixService.PreprocessAlpha(arrayWithIdLocation);
+     	if(distanceTimeMatrixHashMap==null){
      		System.out.println("No hay LocationTmp para procesar.");
      		
      	}else{
- 		   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+     		
+ 		   //	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
  		   	
- 		   	distanceMatrixService.PostProcessAlpha(distanceMatrixList);
+ 		  // 	distanceMatrixService.PostProcessAlpha(distanceMatrixList);
     	
      	} 
      }
