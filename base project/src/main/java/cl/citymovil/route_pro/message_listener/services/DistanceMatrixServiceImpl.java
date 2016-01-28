@@ -116,4 +116,10 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		
 	}
 
+	@Override
+	public ArrayList<Long[]> PreprocessAlpha() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
