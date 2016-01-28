@@ -116,10 +116,44 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		
 	}
 
+	 
 	@Override
-	public ArrayList<Long[]> PreprocessAlpha() {
-		// TODO Auto-generated method stub
-		return null;
+	public LocationContainer PreprocessAlpha(ArrayList<Location> listWithIdLocation) {
+		logger.info("\n**Inicio PreprocessAlpha**\n");
+		//Busqueda de nuevas locaciones 
+		//Busueda de las locaciones anteriores si es que encuentro nuevas locaciones, si no hay nuevas locaciones, retorno null.
+		boolean resultContainer = conteinerLocation.MakeLocationContainerWithArrayLocation(listWithIdLocation);
+		if(resultContainer==false){
+			return null;
+		}else{
+			return conteinerLocation;
+		}
 	}
+
+	@Override
+	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocationOfAllLocation) {
+		logger.info("\n**Inicio PostProcessAlpha**\n");
+		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
+			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
+//			 LocationTmp locationTmp = new LocationTmp(relacion.getIdFirstLocation());
+			 logger.info("\n ///////////// count: "+count);
+			 logger.info("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+			 logger.info("Id Primer Location: "+relacion.getIdFirstLocation());
+			 logger.info("Id Segundo Location: "+relacion.getIdSecondLocation());
+			 logger.info("///////////// \n");
+			 
+			 
+			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
+			 distanceTimeDAO.persistDistanceTime(d);
+			 
+			 
+			 
+			// distanceTimeDAO.mergeDistanceTime(d);
+			 
+		 }	
+		
+	}
+
+	
 
 }

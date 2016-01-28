@@ -1,5 +1,6 @@
 package cl.citymovil.route_pro.message_listener.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cl.citymovil.route_pro.message_listener.domain.Location;
@@ -7,7 +8,7 @@ import cl.citymovil.route_pro.message_listener.domain.Location;
 
 public interface LocationDAO{
 	
-	public List<Location> getLocationList();
+	public ArrayList<Location> getLocationList();
 	
 	public void updateLocation(long LocationId);
 

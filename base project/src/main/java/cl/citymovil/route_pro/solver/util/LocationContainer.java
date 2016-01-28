@@ -1,5 +1,6 @@
 package cl.citymovil.route_pro.solver.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -41,7 +42,29 @@ public class LocationContainer {
 	private List<Location> location=null;
 	private List<LocationTmp> locationTmp=null;
 	
-	
+	public Boolean MakeLocationContainerWithArrayLocation(List <Location> locationList ){
+		
+		if(locationList.isEmpty()==true){
+			return false;
+		}else{
+			List <LocationTmp> listOfLocationTmp = new ArrayList <LocationTmp>();
+			
+			for(int countLocation=0; countLocation < locationList.size(); countLocation++){
+				LocationTmp locationTmp = new LocationTmp();
+				locationTmp.MakeLocationTmpWithLocation(locationList.get(countLocation));
+				listOfLocationTmp.add(countLocation, locationTmp);
+				
+			}
+			this.location=locationList;
+			this.locationTmp=listOfLocationTmp;
+			
+			return true;
+			
+		}
+		
+		
+		
+	}
 	public Boolean LoadLocationConteiner(){
 		
 		List<LocationTmp> listTmp;

@@ -72,6 +72,15 @@ public class LocationTmp {
 
 		this.locationId=locationId;
 	}
+	
+	public LocationTmp MakeLocationTmpWithLocation(Location location){
+		this.latitudeTmp=location.getLatitude();
+		this.locationId=location.getLocationId();
+		this.longitudeTmp=location.getLongitude();
+		
+		return null;
+		
+	}
 
 	public LocationTmp(Double latitude, Double longitude) {
 

@@ -1,6 +1,7 @@
 package cl.citymovil.route_pro.message_listener.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,14 +43,14 @@ public class LocationDAOImpl implements LocationDAO{
 	
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
-	public List<Location> getLocationList() {
+	public ArrayList<Location> getLocationList() {
 //		System.out.println("/////// inicialndo getLocationList ///////");
 		
 		Query query = this.em.createQuery("SELECT s FROM Location s");//en la consulta, es necesario el 
 		                                                              //nombre de la clase y no el nombre de la table de la base de datos
 
 
-		List<Location> locations = (List<Location>)query.getResultList();
+		ArrayList<Location> locations = (ArrayList<Location>)query.getResultList();
 		
 		// return em.createQuery("select p from Location p ").getResultList();
 		// return em.createQuery("select loc from Location loc order by loc.id").getResultList();

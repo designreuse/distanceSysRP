@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
+import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.RelationLocation;
@@ -26,22 +28,29 @@ public class DistanceTimeMatrixAlphaController {
     @Autowired
     private DistanceMatrixService distanceMatrixService;
     
+    /********** Inicio Adicional*/
+    @Autowired
+    private LocationDAO locationDAO;
+    /********** Fin Adicional*/
+    
     @RequestMapping(method = RequestMethod.GET)
      public void onSubmit()
      {
-    	System.out.println("Holanda, que talca");
-//     	LocationContainer locationConteiner = distanceMatrixService.Preprocess();
-//     	if(locationConteiner==null){
-//     		System.out.println("No hay LocationTmp para procesar.");
-//     		
-//     	}else{
-// 		   	 locationConteiner.listLocation();
-// 		   	 locationConteiner.listTmpLocation();
-// 		   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
-// 		   	
-// 		   	distanceMatrixService.PostProcess(distanceMatrixList);
-//    	
-//     	} 
+    	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
+    	   /********** Adicional*/
+    	
+    	  /********** Fin Adicional*/
+    	
+     	LocationContainer locationConteiner = distanceMatrixService.PreprocessAlpha(arrayWithIdLocation);
+     	if(locationConteiner==null){
+     		System.out.println("No hay LocationTmp para procesar.");
+     		
+     	}else{
+ 		   	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+ 		   	
+ 		   	distanceMatrixService.PostProcessAlpha(distanceMatrixList);
+    	
+     	} 
      }
     protected void formBackingObject(HttpServletRequest request) throws ServletException {
     }

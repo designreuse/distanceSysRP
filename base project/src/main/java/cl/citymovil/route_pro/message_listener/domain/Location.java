@@ -8,7 +8,6 @@ import javax.persistence.Id;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,7 +33,6 @@ public class Location {
 	private Double longitude;
 	
 	public  Location(){}
-
 
 	public Location(Double latitude, Double longitude) {
 
@@ -71,5 +69,7 @@ public class Location {
     public String toString() {
 		return String.valueOf(this.locationId);
 	}
+    
+   
 		
 }
