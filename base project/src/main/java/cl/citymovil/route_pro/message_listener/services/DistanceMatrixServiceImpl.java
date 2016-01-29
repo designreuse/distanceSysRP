@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAO;
 import cl.citymovil.route_pro.message_listener.dao.LocationTmpDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
-import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
 import cl.citymovil.route_pro.solver.util.LocationContainer;

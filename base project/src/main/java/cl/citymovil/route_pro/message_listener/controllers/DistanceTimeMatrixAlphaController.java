@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
+import cl.citymovil.route_pro.message_listener.domain.DistanceTimeDataComplete;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.services.DistanceTimeMatrixServiceAlpha;
 
@@ -41,7 +42,7 @@ public class DistanceTimeMatrixAlphaController {
     	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
     	  /********** Fin Adicional*/
     	
-    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);     	
+    	Map<Long, Map<Long, DistanceTimeDataComplete>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);     	
     	if(distanceTimeMatrixHashMap==null){
      		logger.info("(FAIL)Don't have Location.");
      	}else{

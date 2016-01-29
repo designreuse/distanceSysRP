@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
+import cl.citymovil.route_pro.message_listener.domain.DistanceTimeDataComplete;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.RelationLocation;
@@ -26,21 +27,25 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 	DistanceTimeDAO distanceTimeDAO;
 
 	@Override
-	public Map<Long, Map<Long, DistanceTimeData>> PreprocessAlpha(ArrayList<Location> listWithIdLocation) {
-		Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = new HashMap<Long, Map<Long, DistanceTimeData>>();
+	public Map<Long, Map<Long, DistanceTimeDataComplete>> PreprocessAlpha(ArrayList<Location> listWithIdLocation) {
+		Map<Long, Map<Long, DistanceTimeDataComplete>> distanceTimeMatrixHashMap = new HashMap<Long, Map<Long, DistanceTimeDataComplete>>();
 		logger.info("\n**Inicio PreprocessAlpha**\n");
 		List <DistanceTime> distanceTimeMatrixOrigin = distanceTimeDAO.getDistanceTimeOriginsOf(listWithIdLocation);
 		List <DistanceTime> distanceTimeMatrixDestiny = distanceTimeDAO.getDistanceTimeDestiniesOf(listWithIdLocation);
 		/**Generación del HashMap de la matriz de distancia para el Origen a Destino**/
 		if(distanceTimeMatrixOrigin!=null){
 		
+			/**COMPLETO EL HASHMAP DE TODOS LOS DATOS DE LA MATRIZ DE DISTANCIA DESDE LOS ORGENES A LOS DESTINOS**/
 			for(int count=0; count < distanceTimeMatrixOrigin.size(); count++){
 				
-				Map<Long, DistanceTimeData> value = new HashMap<Long, DistanceTimeData>();
-				DistanceTimeData distanceTimeData = new DistanceTimeData( (long)distanceTimeMatrixOrigin.get(count).getDistance(), (long) distanceTimeMatrixOrigin.get(count).getDuration());
-				value.put(distanceTimeMatrixOrigin.get(count).getDestination(),distanceTimeData);
+				Map<Long, DistanceTimeDataComplete> valueOrigin = new HashMap<Long, DistanceTimeDataComplete>();
+				DistanceTimeDataComplete distanceTimeDataComplete = new DistanceTimeDataComplete( );
+				distanceTimeDataComplete.setGoingDistance((long)distanceTimeMatrixOrigin.get(count).getDistance());
+				distanceTimeDataComplete.setGoingTime((long) distanceTimeMatrixOrigin.get(count).getDuration());
 				
-				distanceTimeMatrixHashMap.put(distanceTimeMatrixOrigin.get(count).getOrigin(), value);
+				valueOrigin.put(distanceTimeMatrixOrigin.get(count).getDestination(),distanceTimeDataComplete);
+				
+				distanceTimeMatrixHashMap.put(distanceTimeMatrixOrigin.get(count).getOrigin(), valueOrigin);
 				
 			}
 			//return distanceTimeMatrixHashMap;
@@ -54,19 +59,30 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 			
 			for(int count=0; count < distanceTimeMatrixDestiny.size(); count++){
 				
-				Map<Long, DistanceTimeData> valueDestiny = new HashMap<Long, DistanceTimeData>();
-				DistanceTimeData distanceTimeData = new DistanceTimeData( (long)distanceTimeMatrixDestiny.get(count).getDistance(), (long) distanceTimeMatrixDestiny.get(count).getDuration());
-				valueDestiny.put(distanceTimeMatrixOrigin.get(count).getDestination(),distanceTimeData);
+				Map<Long, DistanceTimeDataComplete> valueDestiny = new HashMap<Long, DistanceTimeDataComplete>();
+				DistanceTimeDataComplete distanceTimeDataCompleteDestiny = new DistanceTimeDataComplete( );
+				distanceTimeDataCompleteDestiny.setCommingDistance((long)distanceTimeMatrixDestiny.get(count).getDistance());
+				distanceTimeDataCompleteDestiny.setCommingTime((long)distanceTimeMatrixDestiny.get(count).getDuration());
+				//(long)distanceTimeMatrixDestiny.get(count).getDistance(), (long) distanceTimeMatrixDestiny.get(count).getDuration()
+				valueDestiny.put(distanceTimeMatrixDestiny.get(count).getDestination(),distanceTimeDataCompleteDestiny);
 				
-				distanceTimeMatrixHashMap.put(distanceTimeMatrixOrigin.get(count).getOrigin(), valueDestiny);
+				distanceTimeMatrixHashMap.put(distanceTimeMatrixDestiny.get(count).getOrigin(), valueDestiny);
 				
 			}
-			return distanceTimeMatrixHashMap;
+			//return distanceTimeMatrixHashMap;
 		}else{
-			logger.info("****No hay ningun dato de la matriz de distancia de Origen a Destino ***************");
+			logger.info("****No hay ningun dato de la matriz de distancia de Destino a Origen  ***************");
+			//return null;
+			
+			
+		}
+		if(distanceTimeMatrixHashMap.isEmpty()){
+			logger.info("**** El HASHMAP esta VACIO, HAY QUE CALCULARLO COMPLETO ***************");
 			return null;
 			
-			
+		}else{
+			logger.info("\n **** ENVIANDO EL HASHMAP AL CONTROLADOR ***************  \n");
+			return distanceTimeMatrixHashMap;
 		}
 	
 		
