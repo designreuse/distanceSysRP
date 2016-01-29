@@ -46,7 +46,7 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List <DistanceTime> getDistanceTimeOriginsOf(ArrayList <Location> locationList) {
-		System.out.println("**\nDEntro de getDistanceTimeOf\n**\n");
+		System.out.println("**\nDEntro de getDistanceTimeOriginsOf\n**\n");
 		List <DistanceTime> distTime = new ArrayList <DistanceTime>();
 		
 		for(int count=0; count < locationList.size(); count++){
@@ -83,6 +83,36 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 //		List<DistanceTime> distanceTime = (List<DistanceTime>)query.getResultList();
 //		
 //		return distanceTime;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List <DistanceTime> getDistanceTimeDestiniesOf(ArrayList <Location> locationList) {
+		System.out.println("**\nDEntro de getDistanceTimeDestiniesOf\n**\n");
+		List <DistanceTime> distTime = new ArrayList <DistanceTime>();
+		
+		for(int count=0; count < locationList.size(); count++){
+			List <DistanceTime> distTimeTmp = new ArrayList <DistanceTime>();
+			Query query = this.em.createQuery("SELECT s FROM DistanceTime s where s.destination = :destinies")
+					.setParameter("destinies", locationList.get(count).getLocationId() );
+			logger.info("/////******* getLocationId :"+locationList.get(count).getLocationId());
+			
+			
+			distTimeTmp = (List<DistanceTime>) query.getResultList();
+			
+			if(distTimeTmp.isEmpty()){
+				System.out.println("@@@No se encontro ninguna matriz de distancia para la locación con ID="+locationList.get(count).getLocationId());
+			}else{
+				System.out.println("@@@ Entro al Else");
+				distTime.addAll(distTimeTmp);
+			}
+		}
+		if(distTime.isEmpty()){
+			return null;
+		}else{
+			return distTime;
+		}
 	}
 
 

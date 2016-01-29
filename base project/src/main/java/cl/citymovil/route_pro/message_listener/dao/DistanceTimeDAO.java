@@ -18,6 +18,9 @@ public interface DistanceTimeDAO {
     
     public void persistDistanceTime(DistanceTime distanceTime);
     
+    
     public List<DistanceTime> getDistanceTimeOriginsOf(ArrayList <Location> locationList);
+    
+    public List<DistanceTime> getDistanceTimeDestiniesOf(ArrayList <Location> locationList);
 
 }
