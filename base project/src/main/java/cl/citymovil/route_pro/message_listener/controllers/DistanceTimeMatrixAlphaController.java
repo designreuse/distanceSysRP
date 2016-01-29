@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cl.citymovil.route_pro.message_listener.dao.LocationDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.Location;
-import cl.citymovil.route_pro.message_listener.services.DistanceMatrixService;
 import cl.citymovil.route_pro.message_listener.services.DistanceTimeMatrixServiceAlpha;
 
 @Controller
@@ -28,8 +27,8 @@ public class DistanceTimeMatrixAlphaController {
 
     @Autowired
     private DistanceTimeMatrixServiceAlpha distanceTimeMatrixServiceAlpha;
-    
     /********** Inicio Adicional*/
+    
     @Autowired
     private LocationDAO locationDAO;
     /********** Fin Adicional*/
@@ -42,10 +41,12 @@ public class DistanceTimeMatrixAlphaController {
     	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
     	  /********** Fin Adicional*/
     	
-    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);
-     	if(distanceTimeMatrixHashMap==null){
-     		System.out.println("(FAIL)Don't have Location.");
+    	Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);     	
+    	if(distanceTimeMatrixHashMap==null){
+     		logger.info("(FAIL)Don't have Location.");
      	}else{
+     		
+     		logger.info("(OK)The PreprocessAlpha was return OK.");
      		
  		   //	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
  		   	
@@ -54,6 +55,7 @@ public class DistanceTimeMatrixAlphaController {
      	} 
      }
     protected void formBackingObject(HttpServletRequest request) throws ServletException {
+    	
     }
 
 //    public void setLocationManager(DistanceMatrixService distanceMatrixService) {

@@ -43,6 +43,7 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 			}
 			return distanceTimeMatrixHashMap;
 		}else{
+			logger.info("**********************ENTRO AL NULL**********************");
 			return null;
 			
 		}

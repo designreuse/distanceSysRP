@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,8 @@ import cl.citymovil.route_pro.message_listener.domain.ScheduledCustomer;
 
 @Repository
 public class DistanceTimeDAOImpl implements DistanceTimeDAO{
+	
+	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@PersistenceContext//(type=PersistenceContextType.EXTENDED)
     public EntityManager em;
@@ -44,18 +48,22 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 	public List <DistanceTime> getDistanceTimeOriginsOf(ArrayList <Location> locationList) {
 		System.out.println("**\nDEntro de getDistanceTimeOf\n**\n");
 		List <DistanceTime> distTime = new ArrayList <DistanceTime>();
+		
 		for(int count=0; count < locationList.size(); count++){
+			List <DistanceTime> distTimeTmp = new ArrayList <DistanceTime>();
 			Query query = this.em.createQuery("SELECT s FROM DistanceTime s where s.origin = :origins")
 					.setParameter("origins", locationList.get(count).getLocationId() );
+			logger.info("/////******* getLocationId :"+locationList.get(count).getLocationId());
 			
 			
-				distTime = (List<DistanceTime>) query.getResultList();
+			distTimeTmp = (List<DistanceTime>) query.getResultList();
 			
-			if(distTime.isEmpty()){
-				System.out.println("No se encontro ninguna matriz de distancia para la locación con ID="+locationList.get(count).getLocationId());
+			if(distTimeTmp.isEmpty()){
+				System.out.println("@@@No se encontro ninguna matriz de distancia para la locación con ID="+locationList.get(count).getLocationId());
 			}else{
-				distTime.addAll(distTime);
-				//System.out.println("Encontre");
+				System.out.println("@@@ Entro al Else");
+				distTime.addAll(distTimeTmp);
+				System.out.println("Encontre");
 //				System.out.println("La matriz de distancia encontrada tiene los datos: \n Origen"+distTime.getOrigin()+" \n Destiny:"+distTime.getDestination()+"\n Distance: "+distTime.getDistance());
 //				listDistanceTime.add(count, distTime);
 			}
