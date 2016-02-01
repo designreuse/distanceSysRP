@@ -10,7 +10,12 @@ public class DistanceTimeDataComplete {
 	public DistanceTimeDataComplete( ){}
 	
 	public DistanceTimeDataComplete(long goingDistance, long goingTime,long commingDistance, long commingTime )
-	{
+	{	
+		this.goingDistance = goingDistance;
+		this.goingTime = goingTime;
+		this.commingDistance = commingDistance;
+		this.commingTime = commingTime;
+		
 		
 	}
 	

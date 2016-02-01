@@ -43,11 +43,20 @@ public class DistanceTimeMatrixAlphaController {
     	  /********** Fin Adicional*/
     	
     	Map<Long, Map<Long, DistanceTimeDataComplete>> distanceTimeMatrixHashMap = distanceTimeMatrixServiceAlpha.PreprocessAlpha(arrayWithIdLocation);     	
+    	
     	if(distanceTimeMatrixHashMap==null){
+    		
      		logger.info("(FAIL)Don't have Location.");
+     		
      	}else{
      		
      		logger.info("(OK)The PreprocessAlpha was return OK.");
+     		distanceTimeMatrixServiceAlpha.PreprocessBeta(distanceTimeMatrixHashMap);
+     		
+     		
+     		
+     		
+     		
      		
  		   //	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
  		   	

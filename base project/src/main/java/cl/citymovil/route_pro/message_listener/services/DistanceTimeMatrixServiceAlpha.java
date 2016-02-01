@@ -12,7 +12,9 @@ public interface DistanceTimeMatrixServiceAlpha {
 	
 	Map<Long, Map<Long, DistanceTimeDataComplete>>  PreprocessAlpha(ArrayList <Location> arrayWithIdLocation);
 	
-	ArrayList<RelationLocation>  Process(LocationContainer locationConteiner);
+	ArrayList <LocationContainer> PreprocessBeta(Map<Long, Map<Long, DistanceTimeDataComplete>> distanceTimeHashMap);
+	
+	ArrayList<RelationLocation>  Process(LocationContainer locationContainer);
 	
 	void PostProcessAlpha(	ArrayList<RelationLocation>  relationLocation);
 

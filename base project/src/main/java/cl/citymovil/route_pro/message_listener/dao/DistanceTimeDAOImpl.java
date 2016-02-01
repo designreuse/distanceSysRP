@@ -71,18 +71,13 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 		if(distTime.isEmpty()){
 			return null;
 		}else{
+			
+			for(int i=0; i < distTime.size() ; i++){
+				System.out.println("\n Origen: "+distTime.get(i).getOrigin()+"\n Destino: "+distTime.get(i).getDestination()+"\n Distancia:"+distTime.get(i).getDistance()+"\n Duracion:"+distTime.get(i).getDuration());
+				
+			}
 			return distTime;
 		}
-		
-		
-		
-		
-//		Query query = this.em.createQuery("SELECT s FROM DistanceTime s");
-//
-//
-//		List<DistanceTime> distanceTime = (List<DistanceTime>)query.getResultList();
-//		
-//		return distanceTime;
 	}
 	
 	
@@ -96,6 +91,7 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 			List <DistanceTime> distTimeTmp = new ArrayList <DistanceTime>();
 			Query query = this.em.createQuery("SELECT s FROM DistanceTime s where s.destination = :destinies")
 					.setParameter("destinies", locationList.get(count).getLocationId() );
+			
 			logger.info("/////******* getLocationId :"+locationList.get(count).getLocationId());
 			
 			
@@ -111,6 +107,10 @@ public class DistanceTimeDAOImpl implements DistanceTimeDAO{
 		if(distTime.isEmpty()){
 			return null;
 		}else{
+			for(int i=0; i < distTime.size() ; i++){
+				System.out.println("\n Destino: "+distTime.get(i).getDestination()+"\n Origen: "+distTime.get(i).getOrigin()+"\n Distancia:"+distTime.get(i).getDistance()+"\n Duracion:"+distTime.get(i).getDuration());
+				
+			}
 			return distTime;
 		}
 	}
