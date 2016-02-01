@@ -207,55 +207,64 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 	}
 
 	@Override
-	public ArrayList<RelationLocation> Process(LocationContainer locationConteiner) {
+	public ArrayList<RelationLocation> Process(LocationContainerForGoogleAsk locationContainerForGoogle) {
 logger.info("\n**Inicio Process**\n");
-List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
-List<Location> oldLocation = locationConteiner.getLocation();
-if(newLocation.isEmpty()){
-	System.out.println("DESTINO VACIO");
-}
+List<Location> listOriginLocation = locationContainerForGoogle.getLocationOrigin();
 
-if(oldLocation.isEmpty()){
-	System.out.println("ORIGEN VACIO");
-}
-for(int count=0; count < oldLocation.size(); count++){
-	System.out.println("@@@--->>> MOSTRANDO ORIGEN DESDE PROCESS <-----@@@");
-	System.out.println("origen:"+oldLocation.get(count));
+List<Location> listDestLocation = locationContainerForGoogle.getLocationDestiny();
+
+if(listDestLocation==null || listDestLocation.size()==0){
+	logger.info("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
+	logger.info("\n**FIN Process**\n");
+	return null;
 	
-}
-for(int count2=0; count2 < newLocation.size(); count2++){
-	System.out.println("@@@--->>> MOSTRANDO DESTINOS de ORIGEN DESDE PROCESS <-----@@@");
-	System.out.println("DEStino:"+newLocation.get(count2));
+}else{
+	ArrayList<RelationLocation>  resp = askToGoogle.getDistanceByGoogleAlpha(locationContainerForGoogle);
 	
-}
-
-
-
+	logger.info(":::::::");
+	logger.info(":::::::");
+	logger.info(":::::::");
+	logger.info(":::::::");
+	logger.info(":::::::");
+	logger.info(":::::::");
+	for(RelationLocation re: resp){
+		System.out.println("imprimiendo el resultado de askToGoogle. \n getGoingDistance"
+	+re.getGoingDistance()
+	+"\n getGoingDuration:"+re.getGoingDuration()
+	+"id ORIGEN:"+re.getIdFirstLocation()
+	+"ID DESTINO:"+re.getIdSecondLocation());
 		
-//		List<LocationTmp> newLocation = locationConteiner.getLocationTmp();
-//		if(newLocation==null || newLocation.size()==0){
-//			
-//			logger.info("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
-//			logger.info("\n**FIN Process**\n");
-//			return null;
-//			
-//		}else{
-//			
-//			ArrayList<RelationLocation>  resp = askToGoogle.getDistanceByGoogle(locationConteiner);
-//			logger.info(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
-//			
-//			logger.info("\n**FIN Process**\n");
-//			return resp;
-//		
-//		}
-logger.info("\n**FIN Process**\n");
-
-return null;
+	}
+	logger.info(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
+	
+	logger.info("\n**FIN Process**\n");
+	return resp;
+}
 	}
 
 	@Override
-	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocation) {
-		// TODO Auto-generated method stub
+	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocationOfAllLocation) {
+		logger.info("\n**Inicio PostProcess**\n");
+		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
+			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
+			 logger.info("\n ///////////// count: "+count);
+			 logger.info("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+			 logger.info("Id Primer Location: "+relacion.getIdFirstLocation());
+			 logger.info("Id Segundo Location: "+relacion.getIdSecondLocation());
+			 logger.info("///////////// \n");
+			 
+			 
+			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
+//			 locationTmp.setLocationId(relacion.getIdFirstLocation());
+			
+			 distanceTimeDAO.persistDistanceTime(d);
+			 
+			 
+			 
+			// distanceTimeDAO.mergeDistanceTime(d);
+			 
+		 }
+			logger.info("\n**Saliendo de PostProcess**\n");
 		
 	}
 

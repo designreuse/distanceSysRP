@@ -19,9 +19,8 @@ public class LocationContainerForGoogleAsk {
 	private ArrayList<Location> locationOrigin;
 	private ArrayList<Location> locationDestiny;
 
-	public LocationContainerForGoogleAsk(){
-		
-	}
+	public LocationContainerForGoogleAsk(){	}
+	
 public LocationContainerForGoogleAsk(ArrayList<Location> locationOrigin, ArrayList<Location> locationDestiny){
 	this.locationOrigin = locationOrigin;
 	this.locationDestiny = locationDestiny;

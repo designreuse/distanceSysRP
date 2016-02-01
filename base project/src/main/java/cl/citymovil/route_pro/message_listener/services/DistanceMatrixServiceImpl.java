@@ -51,7 +51,6 @@ public class DistanceMatrixServiceImpl implements DistanceMatrixService{
 		
 		logger.info("\n**FIN Preprocess**\n");
 		return conteinerLocation;
-
 	}
 
 	@Override

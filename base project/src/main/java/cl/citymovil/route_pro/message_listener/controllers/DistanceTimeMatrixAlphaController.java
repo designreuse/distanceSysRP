@@ -55,29 +55,29 @@ public class DistanceTimeMatrixAlphaController {
      		
      	}else{
      		logger.info("(OK)The PreprocessAlpha was return OK.");
-     		ArrayList<LocationContainerForGoogleAsk> locationContainerForGoogle =new  ArrayList <LocationContainerForGoogleAsk>();
-     		locationContainerForGoogle=distanceTimeMatrixServiceAlpha.PreprocessBeta(distanceTimeMatrixHashMap,arrayWithIdLocation);
-     		if(locationContainerForGoogle==null){
+     		ArrayList<LocationContainerForGoogleAsk> listOfLocationContainerForGoogle =new  ArrayList <LocationContainerForGoogleAsk>();
+     		listOfLocationContainerForGoogle=distanceTimeMatrixServiceAlpha.PreprocessBeta(distanceTimeMatrixHashMap,arrayWithIdLocation);
+     		if(listOfLocationContainerForGoogle==null){
      			System.out.println("Location Container NO CONTINE NADA");
      		}else{
      			System.out.println("ESTAMOS OK Location Container  CONTINE ALGO");
      			
      		}
-     		for(LocationContainerForGoogleAsk b: locationContainerForGoogle){
-     			
+     		for(LocationContainerForGoogleAsk b: listOfLocationContainerForGoogle){
      			System.out.println("///////// (INICIO)Imprimiendo los resultados en un for ");
-     			
      			ArrayList<Location> listOrigin = b.getLocationOrigin();
      			ArrayList<Location> listDestiny = b.getLocationDestiny();
-     			
      			for(Location ori : listOrigin){
      				System.out.println("Datos Origen:"+ori.getLocationId());
      			}
      			for(Location dest : listDestiny){
      				System.out.println("Datos destino:"+dest.getLocationId());
      			}
-     			System.out.println("///////// (FIN)Imprimiendo los resultados en un for ");
+     			System.out.println("///////// Enviando a Process");
      			
+     			ArrayList<RelationLocation> distanceMatrixList = distanceTimeMatrixServiceAlpha.Process(b);
+     			
+     			distanceTimeMatrixServiceAlpha.PostProcessAlpha(distanceMatrixList);
      		}
 //     		for(int count=0; count < locationContainerForGoogle.size(); count++){
 ////     			ArrayList<RelationLocation>  distanceMatrixList = distanceTimeMatrixServiceAlpha.Process(locationContainerForGoogle.get(count));

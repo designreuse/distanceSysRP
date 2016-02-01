@@ -15,7 +15,7 @@ public interface DistanceTimeMatrixServiceAlpha {
 	
 	ArrayList<LocationContainerForGoogleAsk> PreprocessBeta(Map<Long, Map<Long, DistanceTimeDataComplete>> distanceTimeHashMap, ArrayList <Location> arrayWithIdLocation );
 	
-	ArrayList<RelationLocation>  Process(LocationContainer locationContainer);
+	ArrayList<RelationLocation>  Process(LocationContainerForGoogleAsk locationContainerForGoogle);
 	
 	void PostProcessAlpha(	ArrayList<RelationLocation>  relationLocation);
 
