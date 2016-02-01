@@ -18,6 +18,9 @@ import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeDataComplete;
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.services.DistanceTimeMatrixServiceAlpha;
+import cl.citymovil.route_pro.solver.util.LocationContainer;
+import cl.citymovil.route_pro.solver.util.LocationContainerForGoogleAsk;
+import cl.citymovil.route_pro.solver.util.RelationLocation;
 
 @Controller
 @RequestMapping(value="/requestalpha.htm")
@@ -34,6 +37,8 @@ public class DistanceTimeMatrixAlphaController {
     private LocationDAO locationDAO;
     /********** Fin Adicional*/
     
+    
+    
     @RequestMapping(method = RequestMethod.GET)
      public void onSubmit()
      {
@@ -49,16 +54,35 @@ public class DistanceTimeMatrixAlphaController {
      		logger.info("(FAIL)Don't have Location.");
      		
      	}else{
-     		
      		logger.info("(OK)The PreprocessAlpha was return OK.");
-     		distanceTimeMatrixServiceAlpha.PreprocessBeta(distanceTimeMatrixHashMap);
-     		
-     		
-     		
-     		
-     		
-     		
- 		   //	ArrayList<RelationLocation>  distanceMatrixList = distanceMatrixService.Process(locationConteiner);
+     		ArrayList<LocationContainerForGoogleAsk> locationContainerForGoogle =new  ArrayList <LocationContainerForGoogleAsk>();
+     		locationContainerForGoogle=distanceTimeMatrixServiceAlpha.PreprocessBeta(distanceTimeMatrixHashMap,arrayWithIdLocation);
+     		if(locationContainerForGoogle==null){
+     			System.out.println("Location Container NO CONTINE NADA");
+     		}else{
+     			System.out.println("ESTAMOS OK Location Container  CONTINE ALGO");
+     			
+     		}
+     		for(LocationContainerForGoogleAsk b: locationContainerForGoogle){
+     			
+     			System.out.println("///////// (INICIO)Imprimiendo los resultados en un for ");
+     			
+     			ArrayList<Location> listOrigin = b.getLocationOrigin();
+     			ArrayList<Location> listDestiny = b.getLocationDestiny();
+     			
+     			for(Location ori : listOrigin){
+     				System.out.println("Datos Origen:"+ori.getLocationId());
+     			}
+     			for(Location dest : listDestiny){
+     				System.out.println("Datos destino:"+dest.getLocationId());
+     			}
+     			System.out.println("///////// (FIN)Imprimiendo los resultados en un for ");
+     			
+     		}
+//     		for(int count=0; count < locationContainerForGoogle.size(); count++){
+////     			ArrayList<RelationLocation>  distanceMatrixList = distanceTimeMatrixServiceAlpha.Process(locationContainerForGoogle.get(count));
+//     		}
+//     			
  		   	
  		  // 	distanceMatrixService.PostProcessAlpha(distanceMatrixList);
     	

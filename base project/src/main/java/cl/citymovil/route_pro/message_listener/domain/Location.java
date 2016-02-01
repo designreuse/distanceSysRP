@@ -21,7 +21,7 @@ public class Location {
 	public static Logger getLog() {
 		return log;
 	}
-
+	
 	@JsonProperty("location_id")
 	@Id
 	@Column(name="location_id")
@@ -38,6 +38,16 @@ public class Location {
 
 		this.latitude = latitude;
 		this.longitude = longitude;
+	}
+	public Location(Double latitude, Double longitude, long locationId) {
+		this.locationId=locationId;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	public Location(Location location) {
+		this.locationId=location.getLocationId();
+		this.latitude = location.getLatitude();
+		this.longitude = location.getLongitude();
 	}
 	
 
