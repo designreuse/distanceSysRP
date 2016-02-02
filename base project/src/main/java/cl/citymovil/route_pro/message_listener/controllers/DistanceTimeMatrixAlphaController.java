@@ -77,7 +77,7 @@ public class DistanceTimeMatrixAlphaController {
      			System.out.println("Location Container NO CONTINE NADA");
      		}else{
      			System.out.println("ESTAMOS OK Location Container  CONTINE ALGO");
-     		}
+     		
      		System.out.println("\n***********PUNTOS EN CONFLICTO****************\n");
      		for(LocationContainerForGoogleAsk b: listOfLocationContainerForGoogle){
      			System.out.println("\n ///////// (INICIO)Imprimiendo los resultados en un for ");
@@ -95,6 +95,7 @@ public class DistanceTimeMatrixAlphaController {
      			ArrayList<RelationLocation> distanceMatrixList = distanceTimeMatrixServiceAlpha.Process(b);
 //     			
      			distanceTimeMatrixServiceAlpha.PostProcessAlpha(distanceMatrixList);
+     		}
      		}
      		
      		

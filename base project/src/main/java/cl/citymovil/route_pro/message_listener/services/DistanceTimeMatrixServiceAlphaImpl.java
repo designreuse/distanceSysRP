@@ -115,46 +115,52 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 		Map<Long, Map<Long, DistanceTimeData>> distanceTimeHashMap, ArrayList <Location> arrayWithIdLocation) {
 		ArrayList <LocationContainerForGoogleAsk> listOfLocationContainerForGoogleAsk = new ArrayList <LocationContainerForGoogleAsk>();
 		LocationContainerForGoogleAsk locationContainerForGoogleAsk = new LocationContainerForGoogleAsk();
-//		List <LocationContainer> listLocationContainer= new ArrayList <LocationContainer>();
 		ArrayList <Location> listLocationOrigen= new ArrayList <Location>(); 
 		ArrayList <Location> listLocationDestiny= new ArrayList <Location>();  
-		System.out.println("////////HEEEEEYYYYYY/////// ");
-		for (Map.Entry<Long, Map<Long, DistanceTimeData>> outer : distanceTimeHashMap.entrySet()) {
-		    System.out.println("Key: " + outer.getKey() +  "\n");
-		   for(Entry<Long, DistanceTimeData> algo : distanceTimeHashMap.get(outer.getKey()).entrySet() ){
-			   System.out.println("Key = " + algo.getKey() + ", Value = " + algo.getValue().distance );
-		   }
-//		    
-		 }
+//		System.out.println("////////DESCRIPCION DEL CONTENIDO DEL HASHMAP/////// ");
+//		for (Map.Entry<Long, Map<Long, DistanceTimeData>> outer : distanceTimeHashMap.entrySet()) {
+//		    System.out.println("Key: " + outer.getKey() +  "\n");
+//		   for(Entry<Long, DistanceTimeData> algo : distanceTimeHashMap.get(outer.getKey()).entrySet() ){
+//			   System.out.println("Key = " + algo.getKey() + ", Value = " + algo.getValue().distance );
+//		   }
+////		    
+//		 }
 		for(int countOrigen=0; countOrigen < arrayWithIdLocation.size() ; countOrigen++){
-//			System.out.println("(loc) DESCRIPCION LOCATION:"+location.getLocationId()+" DATA[getLatitude]:"+location.getLatitude()+" DATA[getLongitude]:"+location.getLongitude());
 			Long idOrigen; 
 			idOrigen = arrayWithIdLocation.get(countOrigen).getLocationId();
 			/**SI NO ESTA EL ORIGEN, HAY QUE ALMACENAR EL ORIGEN CON TODOS LOS POSIBLES DESTINOS**/
 			if(distanceTimeHashMap.get(idOrigen)==null){
-				 System.out.println("No hay ORIGEN");
+				ArrayList<Location> listLocationDestinyTmp = new ArrayList <Location>(); 
+				listLocationDestinyTmp.addAll(arrayWithIdLocation);
+				listLocationDestinyTmp.remove(arrayWithIdLocation.get(countOrigen));
+				logger.info("(desc HashMap) No hay definición del punto"+idOrigen+", va con todos los destinos");
 				 listLocationOrigen.add(arrayWithIdLocation.get(countOrigen));
-				 listLocationDestiny.addAll(arrayWithIdLocation);
+				 
+				 listLocationDestiny.addAll(listLocationDestinyTmp);
 				 locationContainerForGoogleAsk.setLocationOrigin(listLocationOrigen);
 				 locationContainerForGoogleAsk.setLocationDestiny(listLocationDestiny);
 				 listOfLocationContainerForGoogleAsk.add(locationContainerForGoogleAsk);
 				 listLocationOrigen= new ArrayList <Location>(); 
 				 listLocationDestiny= new ArrayList <Location>();
+				 listLocationDestinyTmp= new ArrayList <Location>();
 				 locationContainerForGoogleAsk=new LocationContainerForGoogleAsk(); 
 			}else{
 				/**SI ESTA EL ORIGEN, HAY QUE ALMACENAR SOLO LOS DESTINOS QUE NO SE ENCUENTRAN**/
 					for(int countDestiny=0; countDestiny < arrayWithIdLocation.size() ; countDestiny++){
 						Long idDestiny;
 						idDestiny= arrayWithIdLocation.get(countDestiny).getLocationId();
-						DistanceTimeData dataLocation;
-						dataLocation = distanceTimeHashMap.get(idOrigen).get(idDestiny);
-						if(dataLocation==null){
-							System.out.println("El dato no se encuentra!!!!!!! [idOrigen:"+idOrigen+"][idDestiny:"+idDestiny+"]"); 
-							listLocationDestiny.add(arrayWithIdLocation.get(countDestiny));	 
-						}else{
-							 
-							System.out.println("Estos son los valores encontrados \n distance:"+dataLocation.distance+" time:"+dataLocation.time);	
-						}	 
+						if(idOrigen!=idDestiny){
+							DistanceTimeData dataLocation;
+							dataLocation = distanceTimeHashMap.get(idOrigen).get(idDestiny);
+						
+							if(dataLocation==null){
+								System.out.println("El dato no se encuentra!!!!!!! [idOrigen:"+idOrigen+"][idDestiny:"+idDestiny+"]"); 
+								listLocationDestiny.add(arrayWithIdLocation.get(countDestiny));	 
+							}else{
+								 
+								System.out.println("Estos son los valores encontrados \n distance:"+dataLocation.distance+" time:"+dataLocation.time);	
+							}
+						}
 					}
 					if(listLocationDestiny.isEmpty()!=true){
 						listLocationOrigen.add(arrayWithIdLocation.get(countOrigen));
@@ -190,6 +196,9 @@ List<Location> listOriginLocation = locationContainerForGoogle.getLocationOrigin
 List<Location> listDestLocation = locationContainerForGoogle.getLocationDestiny();
 
 if(listDestLocation==null || listDestLocation.size()==0){
+	for(int count=0; count < listOriginLocation.size(); count++){
+		logger.info("Imprimiendo Origen en Process:"+listOriginLocation.get(count).getLocationId());
+	}
 	logger.info("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
 	logger.info("\n**FIN Process**\n");
 	return null;
@@ -220,27 +229,30 @@ if(listDestLocation==null || listDestLocation.size()==0){
 
 	@Override
 	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocationOfAllLocation) {
-		logger.info("\n**Inicio PostProcess**\n");
+		logger.trace("\n");
+
+		if(relationLocationOfAllLocation!=null){
+			logger.trace("\n**Inicio PostProcess**\n"+relationLocationOfAllLocation.size() );			
 		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
 			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
-			 logger.info("\n ///////////// count: "+count);
-			 logger.info("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
-			 logger.info("Id Primer Location: "+relacion.getIdFirstLocation());
-			 logger.info("Id Segundo Location: "+relacion.getIdSecondLocation());
-			 logger.info("///////////// \n");
+			 logger.trace("\n ///////////// count: "+count);
+			 logger.trace("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+			 logger.trace("Id Primer Location: "+relacion.getIdFirstLocation());
+			 logger.trace("Id Segundo Location: "+relacion.getIdSecondLocation());
+			 logger.trace("///////////// \n");
 			 
 			 
 			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
 //			 locationTmp.setLocationId(relacion.getIdFirstLocation());
 			
 			 distanceTimeDAO.persistDistanceTime(d);
-			 
-			 
-			 
 			// distanceTimeDAO.mergeDistanceTime(d);
 			 
 		 }
-			logger.info("\n**Saliendo de PostProcess**\n");
+		}else{
+			logger.trace("\n(PostProcessAlpha)**relationLocationOfAllLocation==null**\n");
+		}
+			logger.trace("\n (PostProcessAlpha)**Saliendo de PostProcess**\n");
 		
 	}
 
