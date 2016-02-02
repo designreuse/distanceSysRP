@@ -25,8 +25,8 @@ public class DistanceTime {
 	
 	private long destination;
 	
-	private double distance;
-	private double duration;
+	private long distance;
+	private long duration;
 	
 	public DistanceTime(){}
 
@@ -63,7 +63,7 @@ public class DistanceTime {
 		this.destination = destination;
 	}
 
-	public double getDistance() {
+	public long getDistance() {
 		return distance;
 	}
 
@@ -71,7 +71,7 @@ public class DistanceTime {
 		this.distance = distance;
 	}
 
-	public double getDuration() {
+	public long getDuration() {
 		return duration;
 	}
 
