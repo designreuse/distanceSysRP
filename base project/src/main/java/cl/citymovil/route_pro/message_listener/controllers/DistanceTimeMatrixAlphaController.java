@@ -41,7 +41,7 @@ public class DistanceTimeMatrixAlphaController {
     @RequestMapping(method = RequestMethod.GET)
      public void onSubmit()
      {
-    	logger.info("[(onSubmit)]start onSubmit");
+    	logger.info("\n[(onSubmit)]start onSubmit\n");
     	   /********** Adicional*/
     	ArrayList<Location> arrayWithIdLocation = locationDAO.getLocationList();
     	  /********** Fin Adicional*/
@@ -78,6 +78,7 @@ public class DistanceTimeMatrixAlphaController {
 	     		}
      		}
      	} 
+    	logger.info("\n[(onSubmit)]end onSubmit\n");
      }
     protected void formBackingObject(HttpServletRequest request) throws ServletException {
     	

@@ -38,93 +38,66 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 	/**Genera el HashMap de la lista de origenes a destino que actualmente se encuentran en la base de datos **/
 	@Override
 	public Map<Long, Map<Long, DistanceTimeData>> PreprocessAlpha(ArrayList<Location> listWithIdLocation) {
+		logger.info("\n[(PreprocessAlpha)]start PreprocessAlpha\n");
 		Map<Long, Map<Long, DistanceTimeData>> distanceTimeMatrixHashMapOrigin = new HashMap<Long, Map<Long, DistanceTimeData>>();
-		logger.info("\n**Inicio PreprocessAlpha AQUIIIIIII**\n");
-		
+		Map<Long, DistanceTimeData> distanceTimeMatrixHashMapDestiny = new HashMap<Long, DistanceTimeData>();
 		
 		List <DistanceTime> distanceTimeMatrix=distanceTimeDAO.getDistanceTimeOriginsOf(listWithIdLocation);
-		Map<Long, DistanceTimeData> distanceTimeMatrixHashMapDestiny = new HashMap<Long, DistanceTimeData>();
 		/**Generación del HashMap de la matriz de distancia para el Origen a Destino**/
 		if(distanceTimeMatrix!=null){
-		
 			/**COMPLETO EL HASHMAP DE TODOS LOS DATOS DE LA MATRIZ DE DISTANCIA DESDE LOS ORGENES A LOS DESTINOS**/
-//			for(int count=0; count < distanceTimeMatrixOrigin.size(); count++){
 			Long idOrigen= null;
 			for(int count=0; count < distanceTimeMatrix.size(); count++){
-				System.out.println("ini for<<<>>><<<<>>count"+count+" size->distanceTimeMatrixOrigin:"+distanceTimeMatrix.size());
-				
 				DistanceTimeData distanceTimeData = new DistanceTimeData((long)distanceTimeMatrix.get(count).getDistance(),(long)distanceTimeMatrix.get(count).getDuration());
-//				distanceTimeData.setGoingDistance((long)distanceTimeMatrixOrigin.get(count).getDistance());
-//				distanceTimeData.setGoingTime((long) distanceTimeMatrixOrigin.get(count).getDuration());
-				
+
 				if(idOrigen==null){
 					idOrigen=(Long)distanceTimeMatrix.get(count).getOrigin();
-					System.out.println("Primer ingreso");
+					logger.trace("[(PreprocessAlpha)]Primer ingreso");
 				}
 				if((Long)distanceTimeMatrix.get(count).getOrigin()!=idOrigen){
-					System.out.println("\n (if) no igual- guardando valueOrigin\n");
+					logger.trace("[(PreprocessAlpha)](if) Cambiando y alamcenando hashMap origen... ");
 					distanceTimeMatrixHashMapOrigin.put(idOrigen, distanceTimeMatrixHashMapDestiny);
 					
 					distanceTimeMatrixHashMapDestiny=new HashMap<Long, DistanceTimeData>();
 					
 					idOrigen=distanceTimeMatrix.get(count).getOrigin(); 
 					distanceTimeMatrixHashMapDestiny.put((Long)distanceTimeMatrix.get(count).getDestination(), distanceTimeData);
-					System.out.println("\n generando nuevo valueOrigin\n");
+					logger.trace("[(PreprocessAlpha)]generando nuevo valueOrigin\n");
 				
 				}else{
 					distanceTimeMatrixHashMapDestiny.put((Long)distanceTimeMatrix.get(count).getDestination(), distanceTimeData);
-					System.out.println("\n (else) igual- ya se ha guardando el destiny\n");
-//					distanceTimeMatrixHashMapDestiny.put(distanceTimeMatrix.get(count).getDestination(), distanceTimeDataComplete);
-					
+					logger.trace("[(PreprocessAlpha)] (else) almacenando hashMap destiny\n");
 				}
-
-				System.out.println("\nfin for<<<>>><<<<>>>>>><<<<<<<<<>>>>>>>>>>>>>>>>>");
 			}
 			if(distanceTimeMatrixHashMapDestiny.isEmpty()!=true){
-				System.out.println("\n ### entro al guardado de cola\n");
+				logger.trace("[(PreprocessAlpha)] Almacenando el resto-cola");
 				distanceTimeMatrixHashMapOrigin.put(idOrigen, distanceTimeMatrixHashMapDestiny);
 			}
-			System.out.println("OJOOOO===>distanceTimeMatrixHashMap.size"+distanceTimeMatrixHashMapOrigin.size());
-			//return distanceTimeMatrixHashMap;
 		}else{
-			logger.info("****No hay ningun dato de la matriz de distancia de Origen a Destino ***************");
-			//return null;
-			
+			logger.trace("[(PreprocessAlpha)]****No hay ningun dato de la matriz de distancia de Origen a Destino ***************");
 		}
-		/**Generación del HashMap de la matriz de distancia para el Destino al Origen **/
-
 		if(distanceTimeMatrixHashMapOrigin.isEmpty()){
-			logger.info("**** El HASHMAP esta VACIO, HAY QUE CALCULARLO COMPLETO ***************");
+			logger.trace("[(PreprocessAlpha)]**** El HASHMAP esta VACIO, HAY QUE CALCULARLO COMPLETO *******");
 			distanceTimeMatrixHashMapOrigin.clear();
+			logger.info("\n[(PreprocessAlpha)]end PreprocessAlpha\n");
 			 return distanceTimeMatrixHashMapOrigin;
-			
 		}else{
-			logger.info("\n **** ENVIANDO EL HASHMAP ORIGEN AL CONTROLADOR ***************  \n");
+			logger.trace("[(PreprocessAlpha)]**** ENVIANDO EL HASHMAP ORIGEN AL CONTROLADOR ******** \n");
+			logger.info("\n[(PreprocessAlpha)]end PreprocessAlpha\n");
 			return distanceTimeMatrixHashMapOrigin;
 		}
-	
-		
-		
 	}
-	
-	
 	
 	/**En base al hashMap generado en ProprocessAlpha, genera las listas de string[] para realizar las consultas a google**/
 	@Override
 	public ArrayList<LocationContainerForGoogleAsk> PreprocessBeta(	
 		Map<Long, Map<Long, DistanceTimeData>> distanceTimeHashMap, ArrayList <Location> arrayWithIdLocation) {
+		logger.info("\n[(PreprocessBeta)]start PreprocessAlpha\n");
 		ArrayList <LocationContainerForGoogleAsk> listOfLocationContainerForGoogleAsk = new ArrayList <LocationContainerForGoogleAsk>();
 		LocationContainerForGoogleAsk locationContainerForGoogleAsk = new LocationContainerForGoogleAsk();
 		ArrayList <Location> listLocationOrigen= new ArrayList <Location>(); 
 		ArrayList <Location> listLocationDestiny= new ArrayList <Location>();  
-//		System.out.println("////////DESCRIPCION DEL CONTENIDO DEL HASHMAP/////// ");
-//		for (Map.Entry<Long, Map<Long, DistanceTimeData>> outer : distanceTimeHashMap.entrySet()) {
-//		    System.out.println("Key: " + outer.getKey() +  "\n");
-//		   for(Entry<Long, DistanceTimeData> algo : distanceTimeHashMap.get(outer.getKey()).entrySet() ){
-//			   System.out.println("Key = " + algo.getKey() + ", Value = " + algo.getValue().distance );
-//		   }
-////		    
-//		 }
+
 		for(int countOrigen=0; countOrigen < arrayWithIdLocation.size() ; countOrigen++){
 			Long idOrigen; 
 			idOrigen = arrayWithIdLocation.get(countOrigen).getLocationId();
@@ -133,7 +106,7 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 				ArrayList<Location> listLocationDestinyTmp = new ArrayList <Location>(); 
 				listLocationDestinyTmp.addAll(arrayWithIdLocation);
 				listLocationDestinyTmp.remove(arrayWithIdLocation.get(countOrigen));
-				logger.info("(desc HashMap) No hay definición del punto"+idOrigen+", va con todos los destinos");
+				logger.trace("[(PreprocessBeta)](desc HashMap) No hay definición del punto"+idOrigen+", va con todos los destinos");
 				 listLocationOrigen.add(arrayWithIdLocation.get(countOrigen));
 				 
 				 listLocationDestiny.addAll(listLocationDestinyTmp);
@@ -154,11 +127,11 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 							dataLocation = distanceTimeHashMap.get(idOrigen).get(idDestiny);
 						
 							if(dataLocation==null){
-								System.out.println("El dato no se encuentra!!!!!!! [idOrigen:"+idOrigen+"][idDestiny:"+idDestiny+"]"); 
+								logger.trace("[(PreprocessBeta)]El dato no se encuentra!!!!!!! [idOrigen:"+idOrigen+"][idDestiny:"+idDestiny+"]"); 
 								listLocationDestiny.add(arrayWithIdLocation.get(countDestiny));	 
 							}else{
 								 
-								System.out.println("Estos son los valores encontrados \n distance:"+dataLocation.distance+" time:"+dataLocation.time);	
+								logger.trace("[(PreprocessBeta)]Estos son los valores encontrados \n distance:"+dataLocation.distance+" time:"+dataLocation.time);	
 							}
 						}
 					}
@@ -170,89 +143,70 @@ public class DistanceTimeMatrixServiceAlphaImpl implements DistanceTimeMatrixSer
 						 listLocationOrigen= new ArrayList <Location>(); 
 						 listLocationDestiny= new ArrayList <Location>();
 						 locationContainerForGoogleAsk=new LocationContainerForGoogleAsk(); 
-						
 					}
 			}
-		
 		}
-
 		if(listOfLocationContainerForGoogleAsk.isEmpty()){
-			System.out.println("Entro AL EMPTY");
+			logger.trace("[(PreprocessBeta)] listOfLocationContainerForGoogleAsk is EMPTY");
+			logger.info("\n[(PreprocessBeta)]end PreprocessAlpha\n");
 			return null;
 			
 		}else{
-			System.out.println("RETURN con listLocationContainer CON CARNE??, MOSTRANDO TODO::");
-		
+			logger.trace("[(PreprocessBeta)] listOfLocationContainerForGoogleAsk send");
+			logger.info("\n[(PreprocessBeta)]end PreprocessAlpha\n");
 			return listOfLocationContainerForGoogleAsk;
 		}
 
 	}
 
-	@Override
-	public ArrayList<RelationLocation> Process(LocationContainerForGoogleAsk locationContainerForGoogle) {
-logger.info("\n**Inicio Process**\n");
-List<Location> listOriginLocation = locationContainerForGoogle.getLocationOrigin();
-
-List<Location> listDestLocation = locationContainerForGoogle.getLocationDestiny();
-
-if(listDestLocation==null || listDestLocation.size()==0){
-	for(int count=0; count < listOriginLocation.size(); count++){
-		logger.info("Imprimiendo Origen en Process:"+listOriginLocation.get(count).getLocationId());
-	}
-	logger.info("No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
-	logger.info("\n**FIN Process**\n");
-	return null;
+@Override
+public ArrayList<RelationLocation> Process(LocationContainerForGoogleAsk locationContainerForGoogle) {
+	logger.info("\n[(Process)]start Process \n");
+	List<Location> listOriginLocation = locationContainerForGoogle.getLocationOrigin();
+	List<Location> listDestLocation = locationContainerForGoogle.getLocationDestiny();
+	if(listDestLocation==null || listDestLocation.size()==0){
+		for(int count=0; count < listOriginLocation.size(); count++){
+			logger.info("Imprimiendo Origen en Process:"+listOriginLocation.get(count).getLocationId());
+		}
+		logger.trace("[(Process)]No hay nuevas Locaciones para realizar preguntas a Google, Saliendo de Process");
+		logger.info("\n[(Process)]**FIN Process**\n");
+		return null;
 	
-}else{
-	ArrayList<RelationLocation>  resp = askToGoogle.getDistanceByGoogleAlpha(locationContainerForGoogle);
+	}else{
+		ArrayList<RelationLocation>  resp = askToGoogle.getDistanceByGoogleAlpha(locationContainerForGoogle);
 	
-	logger.info(":::::::");
-	logger.info(":::::::");
-	logger.info(":::::::");
-	logger.info(":::::::");
-	logger.info(":::::::");
-	logger.info(":::::::");
-	for(RelationLocation re: resp){
-		System.out.println("imprimiendo el resultado de askToGoogle. \n getGoingDistance"
-	+re.getGoingDistance()
-	+"\n getGoingDuration:"+re.getGoingDuration()
-	+"id ORIGEN:"+re.getIdFirstLocation()
-	+"ID DESTINO:"+re.getIdSecondLocation());
+	//	for(RelationLocation re: resp){
+	//		System.out.println("imprimiendo el resultado de askToGoogle. \n getGoingDistance"
+	//	+re.getGoingDistance()
+	//	+"\n getGoingDuration:"+re.getGoingDuration()
+	//	+"id ORIGEN:"+re.getIdFirstLocation()
+	//	+"ID DESTINO:"+re.getIdSecondLocation());
+	//		
+	//	}
+		logger.trace("\n[(Process)]:::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
 		
+		logger.info("\n[(Process)]end Process \n");
+		return resp;
 	}
-	logger.info(":::::::  TERMINANDO Proceso de Carga de GOOGLE  ::::::::::");
-	
-	logger.info("\n**FIN Process**\n");
-	return resp;
 }
-	}
 
 	@Override
 	public void PostProcessAlpha(ArrayList<RelationLocation> relationLocationOfAllLocation) {
-		logger.trace("\n");
-
-		if(relationLocationOfAllLocation!=null){
-			logger.trace("\n**Inicio PostProcess**\n"+relationLocationOfAllLocation.size() );			
+		logger.info("\n[(PostProcessAlpha)]start PostProcessAlpha \n");
+		if(relationLocationOfAllLocation!=null){			
 		 for(int count=0; count < relationLocationOfAllLocation.size() ; count++){
 			 RelationLocation relacion = relationLocationOfAllLocation.get(count);
-			 logger.trace("\n ///////////// count: "+count);
-			 logger.trace("Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
-			 logger.trace("Id Primer Location: "+relacion.getIdFirstLocation());
-			 logger.trace("Id Segundo Location: "+relacion.getIdSecondLocation());
+			 logger.trace("[(PostProcessAlpha)] Datos Extraidos GoingDistance: "+relacion.getGoingDistance());
+			 logger.trace("[(PostProcessAlpha)] Id Primer Location: "+relacion.getIdFirstLocation());
+			 logger.trace("[(PostProcessAlpha)] Id Segundo Location: "+relacion.getIdSecondLocation());
 			 logger.trace("///////////// \n");
-			 
-			 
 			 DistanceTime d = new DistanceTime(relacion.getIdFirstLocation(), relacion.getIdSecondLocation() ,relacion.getGoingDistance().longValue(),relacion.getGoingDuration().longValue());    
-//			 locationTmp.setLocationId(relacion.getIdFirstLocation());
-			
 			 distanceTimeDAO.persistDistanceTime(d);
-			// distanceTimeDAO.mergeDistanceTime(d);
-			 
 		 }
 		}else{
-			logger.trace("\n(PostProcessAlpha)**relationLocationOfAllLocation==null**\n");
+			logger.trace("[(PostProcessAlpha)]**relationLocationOfAllLocation==null**\n");
 		}
-			logger.trace("\n (PostProcessAlpha)**Saliendo de PostProcess**\n");
+		logger.info("\n[(PostProcessAlpha)]end PostProcessAlpha \n");
 		
 	}
 
