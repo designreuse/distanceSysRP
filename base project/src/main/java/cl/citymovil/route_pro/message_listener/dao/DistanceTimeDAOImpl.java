@@ -2,7 +2,6 @@ package cl.citymovil.route_pro.message_listener.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
-import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
 import cl.citymovil.route_pro.message_listener.domain.Location;
-import cl.citymovil.route_pro.message_listener.domain.ScheduledCustomer;
 
 @Repository
 public class DistanceTimeDAOImpl implements DistanceTimeDAO{

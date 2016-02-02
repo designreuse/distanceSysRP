@@ -15,7 +15,6 @@ import com.google.maps.model.DistanceMatrix;
 
 import cl.citymovil.route_pro.message_listener.domain.Location;
 import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
-import cl.citymovil.route_pro.solver.util.DistanceTimeMatrixUtility;
 import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.LocationContainerForGoogleAsk;
 import cl.citymovil.route_pro.solver.util.RelationLocation;

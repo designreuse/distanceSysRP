@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import cl.citymovil.route_pro.message_listener.domain.Location;
-import cl.citymovil.route_pro.message_listener.domain.ScheduledCustomer;
 
 
 @Repository

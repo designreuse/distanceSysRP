@@ -1,25 +1,19 @@
 package cl.citymovil.route_pro.message_listener.services;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.math3.util.OpenIntToFieldHashMap.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cl.citymovil.route_pro.message_listener.dao.DistanceTimeDAO;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTime;
 import cl.citymovil.route_pro.message_listener.domain.DistanceTimeData;
-import cl.citymovil.route_pro.message_listener.domain.DistanceTimeDataComplete;
 import cl.citymovil.route_pro.message_listener.domain.Location;
-import cl.citymovil.route_pro.message_listener.domain.LocationTmp;
-import cl.citymovil.route_pro.solver.util.LocationContainer;
 import cl.citymovil.route_pro.solver.util.LocationContainerForGoogleAsk;
 import cl.citymovil.route_pro.solver.util.RelationLocation;
 
