@@ -26,20 +26,13 @@ public class AskToGoogleImpl implements AskToGoogle{
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	protected final int MaxConsultGoogle = 25+1;
-
-	@Autowired
-	DistanceTimeMatrixUtility[] matrizArrayOrigDestTimeDur;
-
 	
 	@Override
 	public ArrayList<RelationLocation> getDistanceByGoogleAlpha(
 			LocationContainerForGoogleAsk locationContainerForGoogle) {
-		Date d = new Date();
-		System.out.println("Tiempo Ahora:" + d.toString());
-		logger.info("hora: "+ d.toString());
+		logger.info("\n[(getDistanceByGoogleAlpha)]start getDistanceByGoogleAlpha \n");
 		GeoApiContext context = new GeoApiContext().setEnterpriseCredentials("gme-bigservicespacityplanning","j-NB2bOlmRUMInQ459WVwrf7O9w=");
-		////////////////////Definición de Variables //////////////////
-				
+		////////////////////Definición de Variables //////////////////		
 		ArrayList<RelationLocation> listRelationLocationDeRetorno = new ArrayList<RelationLocation>();
 		List<Location> oldLocations = locationContainerForGoogle.getLocationDestiny();
 		List<Location> newLocations = locationContainerForGoogle.getLocationOrigin();
@@ -64,7 +57,6 @@ public class AskToGoogleImpl implements AskToGoogle{
 		List<String[]> destinyLocationsList = new ArrayList<String[]>();
 		Boolean flag = true;
 		Boolean flagOrigins = true;
-		
 		//////////////////// FIN Variables definitivas//////////////////
 		for (int contNewLoc = 0; contNewLoc < sizeNewLocation; contNewLoc++) { 
 			/**
@@ -85,7 +77,7 @@ public class AskToGoogleImpl implements AskToGoogle{
 					+ newLocations.get(contNewLoc).getLongitude();
 			newPositionStringList.add(positionStringNEW);
 			origenPosition = newPositionStringList.toArray(new String[newPositionStringList.size()]);
-			logger.info("CONTADOR DE ARRAY MAX LENGTH = MaxConsultGoogle -> countOfQueryGoogleOrigin: " + countOfQueryGoogleOrigin);
+			logger.trace("[(getDistanceByGoogleAlpha)] CONTADOR DE ARRAY MAX LENGTH = MaxConsultGoogle -> countOfQueryGoogleOrigin: " + countOfQueryGoogleOrigin);
 
 			if (countOfLocationOrigin >= MaxConsultGoogle) {// si hay mas de 25 locaciones de origen
 				/**Almacenamiento de list de list Location para generar el RelationLocation**/
@@ -96,7 +88,6 @@ public class AskToGoogleImpl implements AskToGoogle{
 				countOfLocationOrigin = 1;
 				countOfQueryGoogleOrigin++;
 				flagOrigins = false;
-
 			} else {
 				flagOrigins = true;
 			}
@@ -131,9 +122,7 @@ public class AskToGoogleImpl implements AskToGoogle{
 					+ oldLocations.get(contOldLoc).getLongitude();
 			oldPositionStringList.add(positionStringOLD);
 			destinyPosition = oldPositionStringList.toArray(new String[oldPositionStringList.size()]);
-			
-			
-			logger.info("oldPositionStringList countOfQueryGoogle: " + countOfQueryGoogle);
+			logger.trace("[(getDistanceByGoogleAlpha)]oldPositionStringList countOfQueryGoogle: " + countOfQueryGoogle);
 
 			
 			/**
@@ -159,7 +148,6 @@ public class AskToGoogleImpl implements AskToGoogle{
 			}
 			countOfLocation++;
 		}
-
 		/**
 		 * EMPAQUETADO PARA CONSULTA A GOOGLE CON ARRAY LONG DE LARGO <
 		 * MaxConsultGoogle
@@ -176,34 +164,25 @@ public class AskToGoogleImpl implements AskToGoogle{
 		/**
 		 * Leyendo DATOS PARA GENERAR LA CONSLUTA DE GOOGLE BORRAR ESTO DESPUES
 		 */
-		logger.info("destinyLocationsList.size()" + destinyLocationsList.size());
-		logger.info(":::::::::PREGUNTANDO A GOOGLE:::::::::");
+		logger.trace("[(getDistanceByGoogleAlpha)]destinyLocationsList.size()" + destinyLocationsList.size());
+		logger.trace("[(getDistanceByGoogleAlpha)]:::::::::PREGUNTANDO A GOOGLE:::::::::");
 
 		/**** CONSULTANDO A GOOGLE ****/
 			// PARA CADA QUERYGOOGLE DE TAMAÑO MAXIMO DE 25
 			if(listOfListLocationOrigins.size() == origenLocationsList.size()){
-				System.out.println("Los arreglos listOfListLocationOrigins(para R.L.) y origenLocationsList(Google) tiene el mismo tamaño (OK) ");
+				logger.trace("[(getDistanceByGoogleAlpha)] Los arreglos listOfListLocationOrigins(para R.L.) y origenLocationsList(Google) tiene el mismo tamaño (OK) ");
 			
 				for (int count1 = 0; count1 < origenLocationsList.size(); count1++) {
-				 logger.info("::::Contador de Array de Origen:"+count1);
-				logger.info(" destinyLocationsList.size() :" + destinyLocationsList.size());
+					logger.trace("[(getDistanceByGoogleAlpha)]::::Contador de Array de Origen:"+count1);
+					logger.trace("[(getDistanceByGoogleAlpha)] destinyLocationsList.size() :" + destinyLocationsList.size());
 				for (int cont2 = 0; cont2 < destinyLocationsList.size(); cont2++) {
-					logger.info("COUNT1 :" + count1 + " COUNT2:" + cont2);
-					logger.info("LISTO PARA CONSULTAR origenLocationsList.get(count1)"
+					logger.trace("[(getDistanceByGoogleAlpha)]COUNT1 :" + count1 + " COUNT2:" + cont2);
+					logger.trace("[(getDistanceByGoogleAlpha)]LISTO PARA CONSULTAR origenLocationsList.get(count1)"
 							+ origenLocationsList.get(count1).length);
-					logger.info("LISTO PARA CONSULTAR destinyLocationsList.get(count1) "
+					logger.trace("[(getDistanceByGoogleAlpha)]LISTO PARA CONSULTAR destinyLocationsList.get(count1) "
 							+ destinyLocationsList.get(cont2).length);
-//					for (int contOrigin = 0; contOrigin < origenLocationsList.get(count1).length; contOrigin++) {
-//						logger.info("contOrgin: " + contOrigin + " Location Origins :"
-//								+ origenLocationsList.get(count1)[contOrigin]);
-//
-//					}
-//					for (int contDest = 0; contDest < destinyLocationsList.get(cont2).length; contDest++) {
-//						logger.info("contDest: " + contDest + " Location Destiny :"
-//								+ destinyLocationsList.get(cont2)[contDest]);
-//					}
-
-					logger.info("consultando bloque " + count1 + "," + cont2);
+					
+					logger.trace("[(getDistanceByGoogleAlpha)]consultando bloque " + count1 + "," + cont2);
 					
 					try {
 						DistanceMatrix result = DistanceMatrixApi.getDistanceMatrix(context,origenLocationsList.get(count1), destinyLocationsList.get(cont2)).await();
@@ -223,7 +202,7 @@ public class AskToGoogleImpl implements AskToGoogle{
 					} catch (Exception e) {
 						cont2--;
 						//e.printStackTrace();
-						logger.error("error!!! -> uncomment printStackTrace() -> DistanceMatrix (Google Problems)");
+						logger.trace("[(getDistanceByGoogleAlpha)] error!!! -> uncomment printStackTrace() -> DistanceMatrix (Google Problems)");
 							
 						
 						try {
@@ -231,26 +210,20 @@ public class AskToGoogleImpl implements AskToGoogle{
 							
 							
 						} catch (Exception e2) {
-							System.out.println("error!!! -> Thread.sleep() problems");
+							logger.trace("[(getDistanceByGoogleAlpha)]error!!! -> Thread.sleep() problems");
 						}
 						
 						
 					}					
-					logger.info("CONSULTA REALIZADA"+ count1 + "," + cont2);
+					logger.trace("[(getDistanceByGoogleAlpha)]CONSULTA REALIZADA"+ count1 + "," + cont2);
 
 				}
 			}
 		}else{
-			System.out.println("Sistema Caido.Los arreglos listOfListLocationOrigins(para R.L.) y origenLocationsList(Google) NO tiene el mismo tamaño (FAIL) ");
+			logger.trace("[(getDistanceByGoogleAlpha)]Sistema Caido.Los arreglos listOfListLocationOrigins(para R.L.) y origenLocationsList(Google) NO tiene el mismo tamaño (FAIL) ");
 		}
-		
-		
 			/** COMPLETANDO EL RelationLocation con los DATOS DE GOOGLE **/
-			logger.info("Cerrando el Process");
-			Date f = new Date();
-			logger.info("Tiempo de Término de consultas a Google:" + f.toString());
-
-
+			logger.info("\n[(getDistanceByGoogleAlpha)]end getDistanceByGoogleAlpha \n");
 			return listRelationLocationDeRetorno;
 	}
 	
